@@ -1,0 +1,346 @@
+Overview
+What Is TestDriver?
+TestDriver is a computer-use agent for QA testing of user interfaces.
+TestDriver uses AI vision and keyboard and mouse control to automate end-to-end testing. TestDriver is selectorless, meaning it doesn’t rely on CSS selectors or static analysis to find elements.
+Cross-Platform
+Test web, mobile, desktop and more with a single tool.
+Easy Setup
+No need to craft or maintain complex selectors.
+Less Maintenance
+Tests won’t break when code changes.
+TestDriver is different from other computer-use agents as it produces YAML based test script which increases the speed and repeatability of testing.
+​
+
+Selectorless testing
+Unlike traditional frameworks (for example, Selenium, Playwright), TestDriver doesn’t rely on CSS selectors or static analysis. Instead, tests are described in plain English, such as:
+Copy
+Ask AI
+> Open Google Chrome and search for "testdriver"
+This means that you can write tests without worrying about the underlying code structure:
+Test any user flow on any website in any browser
+Clone, build, and test any desktop app
+Render multiple browser windows and popups like 3rd party auth
+Test <canvas>, <iframe>, and <video> tags with ease
+Use file selectors to upload files to the browser
+Resize the browser
+Test chrome extensions
+Test integrations between applications
+​
+
+The problem with current approach to end-to-end testing
+End-to-end is commonly described as the most expensive and time-consuming test method. Right now we write end-to-end tests using complex selectors that are tightly coupled with the code.
+Copy
+Ask AI
+const e = await page.$(
+  'div[class="product-card"] >> text="Add to Cart" >> nth=2',
+);
+This tight coupling means developers need to spend time to understand the codebase and maintain the tests every time the code changes. And code is always changing!
+​
+
+End-to-end is about users, not code
+In end-to-end testing the business priority is usability. All that really matters is that the user can accomplish the goal.TestDriver uses human language to define test requirements. Then our simulated software tester figures out how to accomplish those goals.
+These high level instructions are easier to create and maintain because they’re loosely coupled from the codebase. We’re describing a high level goal, not a low level interaction.The tests will still continue to work even when the junior developer changes .product-card to .product.card or the designers change Add to Cart to Buy Now . The concepts remain the same so the AI will adapt.
+​
+
+How exactly does this work?
+TestDriver uses a combination of reinforcement learning and computer vision. The context from successful text executions inform future executions. Here’s an example of the context our model considers when locating a text match:
+
+
+Concepts
+Selectorless Testing
+Selectorless testing approach simplifies end-to-end testing by using natural language and AI vision.
+Selectorless testing eliminates the need for brittle selectors like CSS classes, IDs, or XPath.Instead, TestDriver uses natural language prompts and AI-powered vision to interact with applications as a user would. This makes tests more resilient to UI changes and reduces maintenance overhead.
+Selectorless testing focuses on what the user sees rather than how the UI is implemented.
+Tests are resilient to changes like text updates, class renaming, or minor layout adjustments.
+By using natural language and AI vision, TestDriver simplifies test creation and maintenance.
+​
+
+What’s selectorless testing?
+The following is an example of a TestDriver test.
+Copy
+Ask AI
+version: 6.0.0
+steps:
+  - prompt: Click the "Sign Up" button
+    commands:
+      - command: hover-text
+        text: Sign Up
+        description: button in the header for user registration
+        action: click
+  - prompt: Assert the registration form is displayed
+    commands:
+      - command: assert
+        expect: The registration form is visible
+This allows TestDriver locates the target for hover-text based on its context and description. The agent will search for elements: in the following order.
+text - exact element to match
+description - a description of the element given the exact text isn’t found, or there are multiple matches
+prompt - a high level prompt used to regenerate the test if no match is found
+​
+
+What happens when “Sign Up” changes to “Register”?
+If the button text changes to “Register,” TestDriver’s AI vision will still locate the button based on its context and description. You don’t need to update the test manually. TestDriver will then update the test to reflect the new UI by modifying the text field. Then, it will open a new pull request with the changes.
+Copy
+Ask AI
+version: 6.0.0
+steps:
+  - prompt: Click the "Register" button
+    commands:
+      - command: hover-text
+        text: Register
+        description: button in the header for user registration
+        action: click
+Need to add --heal flag during the run command to enable auto-healing of the tests. Refer the Auto-Healing section to know more.
+​
+
+Why selectorless testing?
+Traditional testing frameworks rely on selectors tightly coupled to the codebase. For example:
+Copy
+Ask AI
+const button = await page.$('button[class="sign-up-btn"]');
+When using legacy frameworks, if the class name changes, the test will break, requiring updates to the test code!
+Selectorless testing avoids this by focusing on the intent of the interaction rather than the implementation details.
+
+Concepts
+Comparison
+TestDriver vs Playwright vs Selenium
+​
+
+Application support
+TestDriver operates a full desktop environment, so it can run any application.
+| Application | TestDriver | Playwright | Selenium | |:-----------------:|:---------:|:-----------:|:--------:| | Web Apps | ✅ | ✅ | ✅ | | Mobile Apps | ✅ | ✅ | ✅ | | VS Code | ✅ | ✅ | ✅ | | Desktop Apps | ✅ | | | | Chrome Extensions | ✅ | | |
+​
+
+Testing features
+TestDriver is AI first.
+| Feature | TestDriver | Playwright | Selenium | |:--------------------:|:---------:|:----------:|:--------:| | Test Generation | ✅ | | | | Adaptive Testing | ✅ | | | | Visual Assertions | ✅ | | | | Self Healing | ✅ | | | | Application Switching | ✅ | | | | GitHub Actions | ✅ | ✅ | | | Team Dashboard | ✅ | | | | Team Collaboration | ✅ | | |
+​
+
+Test coverage
+TestDriver has more coverage than selector-based frameworks.
+​
+
+Debugging features
+Debugging features are powered by Dashcam.io.
+| Feature | TestDriver | Playwright | Selenium | |:------------------:|:----------:|:----------:|:--------:| | AI Summary | ✅ | | | | Video Replay | ✅ | ✅ | | | Browser Logs | ✅ | ✅ | | | Desktop Logs | ✅ | | | | Network Requests | ✅ | ✅ | | | Team Dashboard | ✅ | | | | Team Collaboration | ✅ | | |
+​
+
+Web browser support
+TestDriver is browser agnostic and supports any version of any browser.
+| Feature | TestDriver | Playwright | Selenium | |:--------:|:----------:|:----------:|:--------:| | Chrome | ✅ | ✅ | ✅ | | Firefox | ✅ | ✅ | ✅ | | Webkit | ✅ | ✅ | ✅ | | IE | ✅ | | ✅ | | Edge | ✅ | ✅ | ✅ | | Opera | ✅ | | ✅ | | Safari | ✅ | | ✅ |
+​
+
+Operating system support
+TestDriver currently supports Mac and Windows!
+| Feature | TestDriver | Playwright | Selenium | |:--------:|:----------:|:----------:|:--------:| | Windows | ✅ | ✅ | ✅ | | Mac | ✅ | ✅ | ✅ | | Linux | | ✅ | ✅ |
+Concepts
+Performance
+Expected Command Performance
+This guide outlines the typical performance characteristics of each TestDriver command based on observed average execution times. These measurements can help guide optimization, identify bottlenecks, and set realistic expectations when designing automated tests.
+​
+
+Fastest Commands
+These commands execute quickly and can be relied upon for high-frequency usage in complex test sequences.
+​
+
+Medium Performance Commands
+These are reliable but may involve minor delays due to image processing, UI rendering, or input simulation.
+​
+
+Slower Commands
+These commands tend to be slower due to intensive image comparison, polling loops, or delays in dynamic content rendering.
+
+Avoid overusing match-image unless strictly necessary. Prefer wait-for-text or hover-text when working with text-based UIs.
+Use remember and assert early in the test to catch failures before expensive commands.
+Favor exec for background operations like launching processes or setting up test conditions.
+Use wait intentionally and sparingly — prefer dynamic waits (wait-for-image, wait-for-text) when possible.
+Monitor cumulative test time. Replacing slower commands can dramatically improve test suite duration.
+Concepts
+FAQ
+Frequently Asked Questions about TestDriver
+​
+
+What’s TestDriver?
+TestDriver is an AI-powered testing platform that simulates user interactions to automate end-to-end testing for web, desktop, and mobile applications.
+​
+
+How does TestDriver work?
+It interprets high-level prompts, interacts with interfaces like a user would, and verifies expected outcomes using visual assertions.
+​
+
+What platforms does TestDriver support?
+TestDriver supports Windows, Mac, Linux, desktop apps, chrome extensions, web browsers, and mobile interfaces (via emulator or device farm).
+​
+
+Can it be used for exploratory testing?
+Yes. TestDriver can autonomously navigate the application to generate new test cases.
+​
+
+Can it test desktop applications?
+Yes. It supports testing native desktop applications by simulating mouse and keyboard input and identifying UI elements.
+​
+
+Can it test mobile apps?
+Yes, via mobile emulators or integration with device farms.
+​
+
+Can TestDriver generate tests automatically?
+Yes, it explores the app and creates test cases based on UI flows and user interactions.
+​
+
+Can I create tests from natural language prompts?
+Yes. You can write high-level instructions in plain language, and TestDriver will interpret and build tests from them.
+​
+
+Can it generate tests from user stories or documentation?
+Yes. It can use minimal descriptions to produce complete test cases.
+​
+
+Can it turn recorded user sessions into tests?
+No, an important part of AI-native testing is the intent behind the actions. TestDriver focuses on understanding user goals rather than just recording actions.
+​
+
+What happens when the UI changes?
+TestDriver adapts using AI—if a button or label changes, it can often infer the correct action without breaking.
+​
+
+Do I need to rewrite tests often?
+No. TestDriver reduces maintenance by handling common UI changes automatically.
+​
+
+How does it handle flaky tests?
+TestDriver Enterprise Dashboards provide insights into test stability, helping you identify flaky tests and their causes.
+​
+
+How are tests updated over time?
+TestDriver will open pull requests in your repository with updated tests when it detects changes in the UI or application behavior. You can also regenerate tests using the original prompts manually.
+​
+
+How does TestDriver report test failures?
+It provides detailed logs, screenshots, console output, and visual diffs.
+​
+
+What happens when a test fails?
+It stops execution, flags the failing step, and provides context for debugging.
+​
+
+Can I view why a test failed?
+Yes. You can view step-by-step logs, network traffic, DOM state, and video playback of the test run.
+​
+
+Can it automatically retry failed actions?
+Yes. You can configure retry behavior for individual steps or full tests.
+​
+
+Can I run tests in parallel?
+Yes. TestDriver supports parallel execution using multiple VMs or containers.
+​
+
+Can I track performance metrics during testing?
+Yes. It can log CPU, memory, load times, and frame rates to help catch performance regressions.
+​
+
+Can it validate non-deterministic output?
+Yes. It uses AI assertions to verify outcomes even when outputs vary (for example, generated text or dynamic UIs).
+​
+
+Can it test workflows with variable inputs?
+Yes. It supports data-driven tests using parameterized inputs.
+​
+
+Can it test file uploads and downloads?
+Yes. TestDriver can interact with file pickers and validate uploaded/downloaded content.
+​
+
+Can it generate tests for PDFs or document output?
+Yes. It can open and verify generated files for expected text or formatting.
+​
+
+Can I trigger tests based on pull requests or merges?
+Yes. You can integrate TestDriver with your CI to trigger runs via GitHub Actions or other CI/CD tools.
+​
+
+Does it integrate with CI/CD tools?
+Yes. TestDriver integrates with pipelines like GitHub Actions, GitLab CI, and CircleCI.
+​
+
+Can I integrate TestDriver with Jira, Slack, etc.?
+Yes. You can receive alerts and sync test results with third-party tools via API/webhooks.
+​
+
+Does it support cloud and local environments?
+Yes. You can run tests locally or in the cloud using ephemeral VMs for clean state testing.
+​
+
+Does it work with existing test frameworks?
+It can complement or convert some existing test cases into its format, though full conversion depends on compatibility.
+​
+
+How does TestDriver measure test coverage?
+It tracks UI paths, element interaction frequency, and application state changes to infer coverage.
+​
+
+Can it suggest missing test scenarios?
+Yes. Based on interaction patterns and user behavior, it can propose additional test cases.
+​
+
+Can it analyze test stability over time?
+Yes. You can view trends in pass/fail rates and test execution consistency.
+​
+
+Is it safe to test sensitive data?
+Yes. TestDriver supports variable obfuscation, secure containers, and test data isolation.
+​
+
+Can I avoid using production data in tests?
+Yes. You can configure mock data, sanitize logs, and use test-specific environments.
+​
+
+How does the AI understand what to test?
+It uses language models to interpret your goals, element names, and interface cues to perform tasks.
+​
+
+Can I adjust how the AI interprets my prompt?
+Yes. You can rewrite prompts, add constraints, or review and tweak auto-generated steps.
+​
+
+Can I see what the AI is doing behind the scenes?
+Yes. You can inspect the resolved steps, see element matches, and adjust test flows before execution.
+​
+
+Can I use TestDriver to test new features?
+Yes. It’s great for validating changes, ensuring no regressions, and verifying rollout configurations.
+​
+
+Can it test seasonal or time-based behaviors?
+Yes. You can schedule tests or run them under specific date/time settings to verify time-sensitive logic.
+TestDriver Enterprise provides comprehensive support for fast-moving teams with complex testing requirements:
+Complex Application Support: Full testing capabilities for desktop applications, Chrome extensions, mobile apps, and web applications that require specialized infrastructure.
+4x4 Custom Test Creation: Our expert team creates 4 fully customized tests tailored to your specific application and workflows within the first 4 weeks.
+Multi-Platform Workflows: Test complex scenarios spanning multiple applications, browsers, and operating systems.
+Unlimited Parallel Testing: Scale your testing across custom infrastructure without limitations.
+Continuous Test Execution: Automated test runs integrated with your development and deployment cycles.
+Intelligent Reporting: Detailed analytics and quality reports delivered to your team.
+Self-Healing Test Maintenance: AI-powered test maintenance that adapts to application changes.
+Custom CI/CD Integration: Tailored integration with your existing development pipeline.
+Enterprise Dashboards: Advanced analytics and monitoring with custom metrics and insights.
+Dedicated Infrastructure: Specialized testing environments configured for your application stack.
+Expert Support: Ongoing technical support and consultation from our testing specialists.
+Testing complex applications requires more than standard automation tools. Desktop applications, browser extensions, and multi-platform workflows demand specialized infrastructure, custom integrations, and deep technical expertise. TestDriver Enterprise provides the complete solution - from initial setup through ongoing maintenance and support.
+
+Quickstart
+Get started with TestDriver in minutes.
+1
+Create a TestDriver Account
+You will need a TestDriver Pro account ($20/month) to get an API key.
+Sign Up for TestDriver
+
+2
+Set up your environment
+Copy your API key from the TestDriver dashboard, and set it as an environment variable.
+macOS / Linux
+Windows
+Export an environment variable on macOS or Linux systems
+Copy
+Ask AI
+export TD_API_KEY="your_api_key_here"
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)

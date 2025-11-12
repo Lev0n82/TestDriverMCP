@@ -1,0 +1,92 @@
+{
+  "timestamp": "2025-11-11T17:17:08.451180",
+  "tests": [
+    {
+      "name": "Memory Store Performance",
+      "metrics": {
+        "write_avg_ms": 0.05,
+        "write_p95_ms": 0.07,
+        "write_p99_ms": 0.25,
+        "read_avg_ms": 0.0,
+        "read_p95_ms": 0.0,
+        "read_p99_ms": 0.0,
+        "search_avg_ms": 6.09,
+        "search_p95_ms": 6.22,
+        "search_p99_ms": 8.01,
+        "target_met": true
+      },
+      "timestamp": "2025-11-11T17:17:08.364091"
+    },
+    {
+      "name": "Learning Scalability",
+      "metrics": {
+        "data_sizes": [
+          10,
+          50,
+          100,
+          500,
+          1000
+        ],
+        "learning_times_ms": [
+          0.18,
+          0.16,
+          0.15,
+          0.16,
+          0.19
+        ],
+        "max_time_ms": 0.19,
+        "target_met": true
+      },
+      "timestamp": "2025-11-11T17:17:08.441255"
+    },
+    {
+      "name": "Concurrent Operations",
+      "metrics": {
+        "concurrent_writes_ms": 3.68,
+        "write_throughput_ops_sec": 13601.0,
+        "concurrent_reads_ms": 0.29,
+        "read_throughput_ops_sec": 173893.0
+      },
+      "timestamp": "2025-11-11T17:17:08.445667"
+    },
+    {
+      "name": "Stability Accuracy",
+      "metrics": {
+        "test_scenarios": 4,
+        "max_error": 0.0,
+        "accuracy_threshold_met": true,
+        "results": [
+          {
+            "executions": 100,
+            "failures": 0,
+            "expected": 1.0,
+            "calculated": 1.0,
+            "error": 0.0
+          },
+          {
+            "executions": 100,
+            "failures": 10,
+            "expected": 0.9,
+            "calculated": 0.9,
+            "error": 0.0
+          },
+          {
+            "executions": 100,
+            "failures": 25,
+            "expected": 0.75,
+            "calculated": 0.75,
+            "error": 0.0
+          },
+          {
+            "executions": 100,
+            "failures": 50,
+            "expected": 0.5,
+            "calculated": 0.5,
+            "error": 0.0
+          }
+        ]
+      },
+      "timestamp": "2025-11-11T17:17:08.451006"
+    }
+  ]
+}
