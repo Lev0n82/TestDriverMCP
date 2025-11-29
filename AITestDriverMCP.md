@@ -1,16 +1,10 @@
-# TestDriver: An Intelligent Approach to Software Quality Assurance
-
-**Author:** Marilyn vos Savant Style Adaptation
-
----
-
-## Understanding TestDriver: A Logical Foundation
+## Understanding TestDriverMCP: A Logical Foundation
 
 Let us begin with first principles. When we test software, what are we truly attempting to verify? The answer, when examined carefully, reveals itself to be quite simple: we want to know whether a human user can accomplish their intended goals through the interface. This seemingly obvious truth has profound implications for how we should approach automated testing.
 
-TestDriver represents a computer-use agent designed specifically for quality assurance testing of user interfaces. The system employs artificial intelligence vision capabilities combined with keyboard and mouse control to automate what we call end-to-end testing. What distinguishes TestDriver from conventional approaches is its "selectorless" methodology—it does not rely on CSS selectors or static code analysis to locate interface elements.
+TestDriverMCP represents a computer-use agent designed specifically for quality assurance testing of user interfaces. The system employs artificial intelligence vision capabilities combined with keyboard and mouse control to automate what we call end-to-end testing. What distinguishes TestDriverMCP from conventional approaches is its "selectorless" methodology—it does not rely on CSS selectors or static code analysis to locate interface elements.
 
-Consider the elegance of this design choice. Traditional testing frameworks require developers to specify precisely which HTML element, identified by its class name or ID attribute, should receive a click or input. TestDriver instead operates as a human would: by looking at the screen and understanding what it sees.
+Consider the elegance of this design choice. Traditional testing frameworks require developers to specify precisely which HTML element, identified by its class name or ID attribute, should receive a click or input. TestDriverMCP instead operates as a human would: by looking at the screen and understanding what it sees.
 
 ### The Cross-Platform Advantage
 
@@ -18,7 +12,7 @@ TestDriver's architecture enables testing across web applications, mobile interf
 
 ### Simplified Setup and Reduced Maintenance
 
-The traditional approach demands that developers craft and maintain complex selectors—those arcane strings of characters that identify specific elements in the document object model. TestDriver eliminates this requirement entirely. When code changes occur (and they invariably do), tests written in TestDriver's natural language format continue to function because they describe intent rather than implementation.
+The traditional approach demands that developers craft and maintain complex selectors—those arcane strings of characters that identify specific elements in the document object model. TestDriver eliminates this requirement entirely. When code changes occur (and they invariably do), tests written in TestDriverMCP's natural language format continue to function because they describe intent rather than implementation.
 
 ### The YAML Advantage
 
@@ -50,7 +44,7 @@ This tight coupling creates a maintenance burden. Developers must invest time un
 
 ## End-to-End Testing Should Focus on Users, Not Code
 
-When we step back and think clearly about end-to-end testing, we recognize that the business priority is usability. What truly matters is whether the user can accomplish their goal. TestDriver embraces this truth by using human language to define test requirements. The simulated software tester then determines how to accomplish those goals.
+When we step back and think clearly about end-to-end testing, we recognize that the business priority is usability. What truly matters is whether the user can accomplish their goal. TestDriverMCP embraces this truth by using human language to define test requirements. The simulated software tester then determines how to accomplish those goals.
 
 Consider the contrast:
 
