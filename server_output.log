@@ -1,0 +1,55 @@
+
+============================================================
+✨ TD(MCP)-GRACE Server Initializing
+============================================================
+🎖️  Generative Requirement-Aware Cognitive Engineering
+📍 QA Command Bridge: http://localhost:8000
+📚 GRACE API Docs: http://localhost:8000/docs
+❤️  Health: http://localhost:8000/health
+🔧 Vision Provider: ollama
+============================================================
+
+{"host": "0.0.0.0", "port": 8000, "event": "Starting TestDriver MCP Server", "timestamp": "2025-11-25T04:01:44.338575Z", "level": "info"}
+INFO:     127.0.0.1:61571 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64650 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64650 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58791 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58790 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58790 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53838 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58784 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58784 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50225 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54043 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54043 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59038 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58792 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58792 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55322 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59033 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59033 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52350 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61388 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61388 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63270 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63269 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63269 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63363 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63262 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63262 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63372 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63271 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63271 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61126 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53387 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53387 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56710 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55296 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55296 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56717 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56716 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56716 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60980 - "GET /config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63472 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63472 - "GET /config HTTP/1.1" 200 OK
+{"requirements": "Platform/Application\tPicasso\nRelease Name\tStudent Housing Survey (SHS) 1.0\nRelease Date\t2025-11-20 \nCategory\tPluggable\nLabel\t1.0\nCode Freeze\t2025-11-05 \nMCU Projects\t\nContent:\n\n115415 - 2025/2026 Student Housing Survey | As an institution user (i.e., college or university), I want to capture student housing beds/spaces plus other relevant information", "timestamp": "2025-11-25T04:04:25.720756Z", "event": "Test execution requested", "level": "info"}

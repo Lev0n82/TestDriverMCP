@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestDriver MCP - Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        input {
+            width: 70%;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 TestDriver MCP - Simple Test Client</h1>
+        <div id="status" class="status">Checking server...</div>
+        
+        <h2>Test API Request</h2>
+        <input type="text" id="testInput" placeholder="Enter test requirements (e.g., test login page)" value="test login page">
+        <button onclick="sendTest()">Send Test Request</button>
+        
+        <h2>Response:</h2>
+        <div id="output">Waiting for request...</div>
+    </div>
+
+    <script>
+        console.log('=== Script loaded ===');
+        
+        const statusDiv = document.getElementById('status');
+        const outputDiv = document.getElementById('output');
+        const testInput = document.getElementById('testInput');
+        
+        // Check server on load
+        async function checkServer() {
+            console.log('Checking server...');
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                console.log('Health check response:', response.status);
+                const data = await response.json();
+                console.log('Health check data:', data);
+                statusDiv.className = 'status success';
+                statusDiv.textContent = '✅ Server is online and healthy!';
+            } catch (error) {
+                console.error('Health check error:', error);
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ Server is offline or not responding: ' + error.message;
+            }
+        }
+        
+        // Send test request
+        async function sendTest() {
+            console.log('=== Sending test request ===');
+            const requirements = testInput.value;
+            console.log('Requirements:', requirements);
+            
+            outputDiv.textContent = 'Sending request...';
+            
+            try {
+                const requestBody = {
+                    requirements: requirements,
+                    timestamp: new Date().toISOString()
+                };
+                console.log('Request body:', requestBody);
+                
+                const response = await fetch('http://localhost:8000/api/test/execute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                // Format the response nicely
+                let formatted = '✅ SUCCESS!\n\n';
+                formatted += 'Status: ' + data.status + '\n';
+                formatted += 'Message: ' + data.message + '\n';
+                formatted += 'Test ID: ' + data.test_id + '\n';
+                formatted += 'Requirements: ' + data.requirements + '\n';
+                formatted += 'Estimated Time: ' + data.estimated_time + '\n\n';
+                formatted += 'Next Steps:\n';
+                if (data.next_steps) {
+                    data.next_steps.forEach((step, i) => {
+                        formatted += `  ${i+1}. ${step}\n`;
+                    });
+                }
+                formatted += '\nStatus URL: ' + data.status_url;
+                
+                outputDiv.textContent = formatted;
+                
+            } catch (error) {
+                console.error('Request error:', error);
+                outputDiv.textContent = '❌ ERROR:\n\n' + error.message + '\n\nCheck browser console (F12) for details.';
+            }
+        }
+        
+        // Run on page load
+        checkServer();
+        
+        console.log('=== Script initialization complete ===');
+    </script>
+</body>
+</html>

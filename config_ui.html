@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TestDriver MCP - Configuration</title>
+  <style>
+    body{font-family:Segoe UI,Roboto,Arial;margin:24px;background:#f7fafc}
+    .card{background:#fff;border-radius:8px;padding:20px;max-width:720px;margin:20px auto;box-shadow:0 4px 16px rgba(2,6,23,0.08)}
+    h1{font-size:20px;margin-bottom:8px}
+    h2{font-size:16px;margin-top:24px;margin-bottom:12px;color:#374151}
+    label{display:block;margin-top:12px}
+    select,input{width:100%;padding:10px;margin-top:6px;border:1px solid #e2e8f0;border-radius:6px}
+    button{margin-top:12px;padding:10px 14px;border-radius:6px;background:#4f46e5;color:white;border:none;cursor:pointer}
+    .note{margin-top:10px;color:#475569;font-size:13px}
+    .success{color:green}
+    .error{color:red}
+    .tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:2px solid #e5e7eb}
+    .tab{padding:12px 16px;cursor:pointer;border:none;background:none;font-size:14px;color:#6b7280;border-bottom:3px solid transparent}
+    .tab.active{color:#4f46e5;border-bottom-color:#4f46e5}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    .provider-section{background:#f9fafb;padding:16px;border-radius:6px;margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>AI Provider Configuration</h1>
+    <p class="note">Configure your AI provider for TestDriver MCP. Choose between local Ollama or cloud-based APIs.</p>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="ollama-local">Local Ollama</button>
+      <button class="tab" data-tab="ollama-cloud">Ollama Cloud API</button>
+      <button class="tab" data-tab="custom-api">Custom API</button>
+    </div>
+
+    <!-- Local Ollama Tab -->
+    <div id="ollama-local" class="tab-content active">
+      <h2>Local Ollama Instance</h2>
+      <p class="note">Connect to a locally running Ollama instance.</p>
+      
+      <label for="ollamaUrl">Ollama Base URL</label>
+      <input id="ollamaUrl" placeholder="http://localhost:11434" />
+
+      <label for="modelSelect">Available Models</label>
+      <select id="modelSelect">
+        <option value="gpt-oss:120b-cloud">GPT-OSS 120B Cloud</option>
+        <option value="gpt-oss:20b-cloud">GPT-OSS 20B Cloud</option>
+        <option value="deepseek-v3.1:671b-cloud">DeepSeek v3.1 671B Cloud</option>
+        <option value="qwen3-coder:480b-cloud">Qwen3 Coder 480B Cloud</option>
+        <option value="qwen3-vl:235b-cloud">Qwen3 VL 235B Cloud</option>
+        <option value="minimax-m2:cloud">Minimax M2 Cloud</option>
+        <option value="glm-4.6:cloud">GLM 4.6 Cloud</option>
+        <option value="gpt-oss:120b">GPT-OSS 120B</option>
+        <option value="gpt-oss:20b">GPT-OSS 20B</option>
+        <option value="gemma3:27b">Gemma3 27B</option>
+        <option value="gemma3:12b">Gemma3 12B</option>
+        <option value="gemma3:4b">Gemma3 4B</option>
+        <option value="gemma3:1b">Gemma3 1B</option>
+        <option value="deepseek-r1:8b">DeepSeek R1 8B</option>
+        <option value="qwen3-coder:30b">Qwen3 Coder 30B</option>
+        <option value="qwen3-vl:30b">Qwen3 VL 30B</option>
+        <option value="qwen3-vl:8b">Qwen3 VL 8B</option>
+        <option value="qwen3-vl:4b">Qwen3 VL 4B</option>
+        <option value="qwen3:30b">Qwen3 30B</option>
+        <option value="qwen3:8b">Qwen3 8B</option>
+        <option value="qwen3:4b">Qwen3 4B</option>
+        <option value="llava:13b">LLaVA 13B</option>
+      </select>
+
+      <button id="saveBtn">Save Configuration</button>
+      <button id="pullBtn" style="background:#059669;display:none;">Pull/Run Model</button>
+
+      <p id="status" class="note"></p>
+      <p id="pullStatus" class="note" style="display:none;"></p>
+    </div>
+
+    <!-- Ollama Cloud API Tab -->
+    <div id="ollama-cloud" class="tab-content">
+      <h2>Ollama Cloud API</h2>
+      <p class="note">Use Ollama's cloud API with your API key.</p>
+      
+      <label for="ollamaCloudUrl">Ollama Cloud API URL</label>
+      <input id="ollamaCloudUrl" placeholder="https://api.ollama.cloud" />
+
+      <label for="ollamaApiKey">API Key</label>
+      <input id="ollamaApiKey" type="password" placeholder="Your Ollama API key" />
+
+      <label for="ollamaCloudModel">Model</label>
+      <input id="ollamaCloudModel" placeholder="e.g., gpt-oss:120b-cloud" />
+
+      <button id="savecloudBtn">Save Cloud API Configuration</button>
+      <p id="cloudStatus" class="note"></p>
+    </div>
+
+    <!-- Custom API Tab -->
+    <div id="custom-api" class="tab-content">
+      <h2>Custom API Provider</h2>
+      <p class="note">Configure any custom LLM API (OpenAI, Azure, etc.).</p>
+      
+      <label for="customApiUrl">API Endpoint URL</label>
+      <input id="customApiUrl" placeholder="https://api.openai.com/v1/chat/completions" />
+
+      <label for="customApiKey">API Key</label>
+      <input id="customApiKey" type="password" placeholder="Your API key" />
+
+      <label for="customModel">Model Name</label>
+      <input id="customModel" placeholder="e.g., gpt-4, claude-3-opus" />
+
+      <label for="customProvider">Provider Type</label>
+      <select id="customProvider">
+        <option value="openai">OpenAI</option>
+        <option value="azure">Azure OpenAI</option>
+        <option value="anthropic">Anthropic</option>
+        <option value="generic">Generic (compatible with OpenAI format)</option>
+      </select>
+
+      <button id="savecustomBtn">Save Custom API Configuration</button>
+      <p id="customStatus" class="note"></p>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.getAttribute('data-tab');
+        // Hide all content
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        // Remove active from all tabs
+        document.querySelectorAll('.tab').forEach(t => {
+          t.classList.remove('active');
+        });
+        // Show selected tab
+        document.getElementById(tabName).classList.add('active');
+        tab.classList.add('active');
+      });
+    });
+
+    // Elements for Local Ollama tab
+    const status = document.getElementById('status');
+    const pullStatus = document.getElementById('pullStatus');
+    const modelSelect = document.getElementById('modelSelect');
+    const ollamaUrl = document.getElementById('ollamaUrl');
+    const saveBtn = document.getElementById('saveBtn');
+    const pullBtn = document.getElementById('pullBtn');
+
+    // Elements for Cloud API tab
+    const ollamaCloudUrl = document.getElementById('ollamaCloudUrl');
+    const ollamaApiKey = document.getElementById('ollamaApiKey');
+    const ollamaCloudModel = document.getElementById('ollamaCloudModel');
+    const savecloudBtn = document.getElementById('savecloudBtn');
+    const cloudStatus = document.getElementById('cloudStatus');
+
+    // Elements for Custom API tab
+    const customApiUrl = document.getElementById('customApiUrl');
+    const customApiKey = document.getElementById('customApiKey');
+    const customModel = document.getElementById('customModel');
+    const customProvider = document.getElementById('customProvider');
+    const savecustomBtn = document.getElementById('savecustomBtn');
+    const customStatus = document.getElementById('customStatus');
+
+    async function loadConfig(){
+      try{
+        const cfg = await fetch('/config').then(r=>r.json());
+        ollamaUrl.value = cfg.vision.ollama_url || 'http://localhost:11434';
+        await loadModels();
+        // select current model
+        const current = cfg.vision.ollama_model;
+        if(current){
+          const opt = Array.from(modelSelect.options).find(o=>o.value===current);
+          if(opt) opt.selected = true;
+        }
+      }catch(e){ status.textContent = 'Failed to load config: '+e; status.className='note error' }
+    }
+
+    async function loadModels(){
+      pullBtn.style.display = 'none';
+      try{
+        const baseUrl = (ollamaUrl.value || 'http://localhost:11434').replace(/\/+$/,'');
+        const serverUrl = '/ollama/all-models?base_url=' + encodeURIComponent(baseUrl);
+        console.log('Fetching all models from:', serverUrl);
+        
+        const res = await fetch(serverUrl);
+        if(!res.ok) throw new Error('Failed to fetch models: ' + res.status);
+        
+        const models = await res.json();
+        console.log('All models:', models);
+        
+        modelSelect.innerHTML = '';
+        const installedCount = models.filter(m => m.installed).length;
+        const totalCount = models.length;
+        
+        models.forEach(m => {
+          const opt = document.createElement('option');
+          opt.value = m.name;
+          const badge = m.installed ? ' ✓' : ' (pull to install)';
+          opt.textContent = m.name + badge;
+          modelSelect.appendChild(opt);
+        });
+        
+        status.textContent = `Showing ${totalCount} models. ${installedCount} currently installed.`;
+        status.className = 'note success';
+      }catch(e){
+        console.error('Error loading models:', e);
+        status.textContent = 'Error loading models: ' + e.message;
+        status.className = 'note error';
+      }
+    }
+
+    async function pullOrRunModel(modelName){
+      pullBtn.disabled = true;
+      pullStatus.style.display = 'block';
+      pullStatus.textContent = 'Checking model...';
+      pullStatus.className = 'note';
+      
+      try{
+        const baseUrl = (ollamaUrl.value || 'http://localhost:11434').replace(/\/+$/,'');
+        const tagsRes = await fetch(baseUrl + '/api/tags');
+        const tagsData = await tagsRes.json();
+        const modelExists = tagsData.models.some(m => m.name === modelName);
+        
+        if(modelExists){
+          pullStatus.textContent = 'Model already available!';
+          pullStatus.className = 'note success';
+        } else if(modelName.includes('cloud')){
+          pullStatus.textContent = 'Attempting to run cloud model: ' + modelName + '...';
+          pullStatus.className = 'note';
+          
+          const runRes = await fetch(baseUrl + '/api/generate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({model: modelName, prompt: 'test', stream: false})
+          });
+          
+          if(runRes.status === 200 || runRes.status === 202){
+            pullStatus.textContent = 'Cloud model ' + modelName + ' is now available!';
+            pullStatus.className = 'note success';
+            setTimeout(() => loadModels(), 2000);
+          } else {
+            throw new Error('Failed to run cloud model');
+          }
+        } else {
+          pullStatus.textContent = 'Pulling model: ' + modelName + '... (this may take a while)';
+          pullStatus.className = 'note';
+          
+          const pullRes = await fetch(baseUrl + '/api/pull', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: modelName, stream: false})
+          });
+          
+          if(pullRes.status === 200 || pullRes.status === 202){
+            pullStatus.textContent = 'Model ' + modelName + ' pulled successfully!';
+            pullStatus.className = 'note success';
+            setTimeout(() => loadModels(), 2000);
+          } else {
+            throw new Error('Failed to pull model');
+          }
+        }
+      }catch(e){
+        console.error('Pull/run error:', e);
+        pullStatus.textContent = 'Error: ' + e.message;
+        pullStatus.className = 'note error';
+      } finally {
+        pullBtn.disabled = false;
+      }
+    }
+
+    modelSelect.addEventListener('change', async () => {
+      const selectedModel = modelSelect.value;
+      const baseUrl = (ollamaUrl.value || 'http://localhost:11434').replace(/\/+$/,'');
+      
+      try{
+        const tagsRes = await fetch(baseUrl + '/api/tags');
+        const tagsData = await tagsRes.json();
+        const modelExists = tagsData.models.some(m => m.name === selectedModel);
+        
+        if(!modelExists){
+          pullBtn.style.display = 'inline-block';
+          pullBtn.onclick = () => pullOrRunModel(selectedModel);
+          status.textContent = 'Model not available. Click "Pull/Run Model" to fetch it.';
+          status.className = 'note error';
+        } else {
+          pullBtn.style.display = 'none';
+          status.textContent = '';
+          status.className = 'note';
+        }
+      }catch(e){
+        console.error('Check model error:', e);
+      }
+    });
+
+    saveBtn.addEventListener('click', async ()=>{
+      const model = modelSelect.value;
+      const base = ollamaUrl.value || 'http://localhost:11434';
+      
+      try{
+        const baseUrl = base.replace(/\/+$/,'');
+        const tagsRes = await fetch(baseUrl + '/api/tags');
+        const tagsData = await tagsRes.json();
+        const modelExists = tagsData.models.some(m => m.name === model);
+        
+        if(!modelExists){
+          status.textContent = 'Model not available yet. Please click "Pull/Run Model" first.';
+          status.className = 'note error';
+          return;
+        }
+      }catch(e){
+        status.textContent = 'Error checking model availability: ' + e;
+        status.className = 'note error';
+        return;
+      }
+      
+      status.textContent = 'Saving...';
+      try{
+        const res = await fetch('/config/model', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model, base_url: base})});
+        if(!res.ok) throw new Error('Save failed: '+res.status);
+        const j = await res.json();
+        status.textContent = j.message || 'Model saved successfully!'; 
+        status.className='note success';
+      }catch(e){ 
+        status.textContent = e; 
+        status.className='note error' 
+      }
+    });
+
+    ollamaUrl.addEventListener('change', loadModels);
+
+    // Cloud API handlers
+    savecloudBtn.addEventListener('click', async ()=>{
+      cloudStatus.textContent = 'Saving cloud API configuration...';
+      try{
+        const payload = {
+          provider: 'ollama-cloud',
+          api_url: ollamaCloudUrl.value,
+          api_key: ollamaApiKey.value,
+          model: ollamaCloudModel.value
+        };
+        const res = await fetch('/config/provider', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(!res.ok) throw new Error('Save failed: '+res.status);
+        const j = await res.json();
+        cloudStatus.textContent = 'Cloud API configuration saved!'; 
+        cloudStatus.className='note success';
+      }catch(e){ 
+        cloudStatus.textContent = 'Error: ' + e; 
+        cloudStatus.className='note error' 
+      }
+    });
+
+    // Custom API handlers
+    savecustomBtn.addEventListener('click', async ()=>{
+      customStatus.textContent = 'Saving custom API configuration...';
+      try{
+        const payload = {
+          provider: customProvider.value,
+          api_url: customApiUrl.value,
+          api_key: customApiKey.value,
+          model: customModel.value
+        };
+        const res = await fetch('/config/provider', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(!res.ok) throw new Error('Save failed: '+res.status);
+        const j = await res.json();
+        customStatus.textContent = 'Custom API configuration saved!'; 
+        customStatus.className='note success';
+      }catch(e){ 
+        customStatus.textContent = 'Error: ' + e; 
+        customStatus.className='note error' 
+      }
+    });
+
+    loadConfig();
+  </script>
+</body>
+</html>

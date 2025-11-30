@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TD(MCP)-GRACE: QA Command Bridge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* GRACE Theme Colors - Inspired by Admiral Grace Hopper */
+        :root {
+            --grace-primary: #1a3a52;        /* Deep Navy - Authority & Trust */
+            --grace-accent: #f39c12;         /* Gold - Excellence & Achievement */
+            --grace-light: #e8f4f8;          /* Light Cyan - Clarity */
+            --grace-success: #27ae60;        /* Green - Validation */
+            --grace-warning: #e74c3c;        /* Red - Attention */
+            --grace-text: #2c3e50;           /* Dark Slate - Readability */
+            --grace-border: #bdc3c7;         /* Light Gray - Boundaries */
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a52 0%, #2c5aa0 50%, #34495e 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .grace-header-badge {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(243, 156, 18, 0.95);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .chat-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-top: 4px solid var(--grace-accent);
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--grace-primary) 0%, #2c5aa0 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            border-bottom: 2px solid var(--grace-accent);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .grace-icon {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--grace-accent);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header-title {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .grace-subtitle {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-top: 2px;
+            letter-spacing: 0.3px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 10px;
+            border-radius: 20px;
+        }
+
+        .header-action {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .header-action:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: var(--grace-accent);
+            box-shadow: 0 4px 8px rgba(243, 156, 18, 0.2);
+        }
+
+        .model-label {
+            color: white;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--grace-success);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(to bottom, var(--grace-light), #ffffff);
+            min-height: 0;
+        }
+        
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            animation: messageSlideIn 0.3s ease;
+        }
+        
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, var(--grace-accent), #f1c40f);
+            color: white;
+        }
+        
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, var(--grace-primary), #2c5aa0);
+            color: white;
+        }
+        
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 70%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .message.user .message-content {
+            background: linear-gradient(135deg, var(--grace-accent), #f1c40f);
+            color: white;
+            margin-left: auto;
+        }
+        
+        .message.assistant .message-content {
+            background: var(--grace-light);
+            color: var(--grace-text);
+            border-left: 3px solid var(--grace-accent);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px 16px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--grace-primary);
+            animation: typingAnimation 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { opacity: 0.4; }
+            30% { opacity: 1; }
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--grace-light);
+            border-bottom: 1px solid var(--grace-border);
+            flex-wrap: wrap;
+            justify-content: center;
+            border-top: 1px solid var(--grace-border);
+        }
+        
+        .quick-action {
+            background: white;
+            color: var(--grace-primary);
+            border: 1px solid var(--grace-accent);
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+        
+        .quick-action:hover {
+            background: var(--grace-accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .quick-action[title] {
+            cursor: help;
+        }
+        
+        .quick-action[title]:after {
+            content: attr(title);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 58, 82, 0.95);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: normal;
+            white-space: normal;
+            width: 200px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .quick-action[title]:hover:after {
+            opacity: 1;
+        }
+        
+        /* GRACE Release Analyzer - Special Button */
+        .quick-action.grace-special {
+            background: linear-gradient(135deg, var(--grace-accent), #f1c40f);
+            color: var(--grace-primary);
+            border: 2px solid var(--grace-accent);
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        .quick-action.grace-special:hover {
+            background: linear-gradient(135deg, #f1c40f, var(--grace-accent));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.6);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4); }
+            50% { box-shadow: 0 6px 20px rgba(243, 156, 18, 0.8); }
+        }
+        
+        .chat-input-container {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid var(--grace-border);
+            flex-shrink: 0;
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+        
+        .chat-input {
+            flex: 1;
+            border: 2px solid var(--grace-border);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            max-height: 120px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--grace-accent);
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1);
+        }
+        
+        .send-button {
+            background: linear-gradient(135deg, var(--grace-accent), #f1c40f);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(243, 156, 18, 0.4);
+        }
+        
+        .send-button:active {
+            transform: translateY(0);
+        }
+        
+        .autocomplete-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--grace-accent);
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+            margin-bottom: 5px;
+        }
+        
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+        
+        .autocomplete-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--grace-border);
+            transition: background 0.2s ease;
+        }
+        
+        .autocomplete-item:hover {
+            background: var(--grace-light);
+        }
+        
+        .autocomplete-item-label {
+            font-weight: 600;
+            color: var(--grace-primary);
+        }
+        
+        .autocomplete-item-desc {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 2px;
+        }
+        
+        .grace-info-box {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(39, 174, 96, 0.1));
+            border-left: 4px solid var(--grace-accent);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 13px;
+            color: var(--grace-text);
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--grace-accent);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d68910;
+        }
+    </style>
+</head>
+<body>
+    <div class="grace-header-badge">TD(MCP)-GRACE ✨</div>
+    
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-left">
+                <div class="grace-icon">✨</div>
+                <div class="header-title">
+                    <h1>TD(MCP)-GRACE</h1>
+                    <div class="grace-subtitle">QA Command Bridge | Generative Requirement-Aware Cognitive Engineering</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status">
+                    <div class="status-dot"></div>
+                    <span id="statusText">Connected</span>
+                </div>
+                <div class="model-label" id="modelText" title="Selected model">Model: N/A</div>
+                <button id="openConfig" class="header-action" title="Open Model Config">⚙ Config</button>
+                <button id="openAzure" class="header-action" title="Azure Integration">☁ Azure</button>
+            </div>
+        </div>
+        
+        <div class="quick-actions">
+            <button class="quick-action grace-special" data-message="Analyze DevOps release contents and generate comprehensive test cases from release notes, changelog, and deployment specifications" title="GRACE Release Analyzer: Analyze DevOps release contents (from Azure DevOps, GitHub, GitLab). Generate comprehensive test cases from release notes, changelog, commits, and deployment specs. Specify release version/tag, repository details, and test scope.">📦 GRACE Release Analyzer</button>
+            <button class="quick-action" data-message="Start a new autonomous test for the application" title="Start Test: Initiate autonomous testing from high-level requirements. Specify application URL, browser (chrome/firefox/webkit), testing dimensions (functional/accessibility/security/performance), and timeout.">🚀 Start Test</button>
+            <button class="quick-action" data-message="Execute a specific test step (navigate, click, type, assert, or wait)" title="Execute Step: Execute a single test step programmatically. Specify the test ID, action type (navigate/click/type/assert/wait), and action parameters.">▶️ Execute Step</button>
+            <button class="quick-action" data-message="Get the comprehensive test report" title="Get Report: Retrieve comprehensive test execution report. Specify test ID and desired format (html/json/junit) for the report output.">📊 Get Report</button>
+            <button class="quick-action" data-message="Trigger self-healing for a failed test" title="Heal Test: Trigger self-healing for a failed test. Automatically repairs broken locators using AI vision. Can auto-commit healing if confidence > 0.90.">🔧 Heal Test</button>
+            <button class="quick-action" data-message="List all test executions with their status" title="List Tests: List all test executions with their status. Filter by status (all/running/passed/failed/healing) and limit results for pagination.">📋 List Tests</button>
+            <button class="quick-action" data-message="Stop a running test execution" title="Stop Test: Stop a running test execution immediately. Can optionally save state for potential resume functionality.">⏹️ Stop Test</button>
+            <button class="quick-action" data-message="Get telemetry metrics for analysis (execution, quality, system, business)" title="Get Metrics: Get telemetry metrics for analysis. Retrieve metrics by type (execution/quality/system/business) for specified time range (1h/24h/7d/30d).">📈 Get Metrics</button>
+            <button class="quick-action" data-message="Get reliability scores for tests or modules" title="Reliability Score: Get reliability scores for tests or modules. Analyze test stability, failure rates, and healing history to score component reliability.">⭐ Reliability Score</button>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant">
+                <div class="message-avatar">✨</div>
+                <div class="message-content">
+                    <strong>Welcome to TD(MCP)-GRACE</strong><br>
+                    <em>Generative Requirement-Aware Cognitive Engineering</em><br><br>
+                    In the spirit of Admiral Grace Hopper, GRACE reimagines how machines interpret, validate, and evolve software testing.<br><br>
+                    I can help you with:<br>
+                    🎯 Intelligent test plan generation<br>
+                    🔍 Semantic-aware test scenarios<br>
+                    🛡️ Requirement-driven validation<br>
+                    📊 Comprehensive test analysis<br><br>
+                    <div class="grace-info-box">
+                    <strong>Clarity reborn as intelligence</strong> — Where every test case is an act of understanding, and every specification is a dialogue between human and machine.
+                    </div>
+                    <br>What would you like to test today?
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper autocomplete-container">
+                <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+                <textarea 
+                    id="chatInput" 
+                    class="chat-input" 
+                    placeholder="Describe your test requirements in natural language..."
+                    rows="1"
+                ></textarea>
+                <button class="send-button" id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Chat client JavaScript loaded successfully');
+        
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const statusText = document.getElementById('statusText');
+        
+        console.log('DOM elements:', {
+            chatMessages: !!chatMessages,
+            chatInput: !!chatInput,
+            sendButton: !!sendButton,
+            statusText: !!statusText
+        });
+
+        const modelText = document.getElementById('modelText');
+        const autocompleteDropdown = document.getElementById('autocompleteDropdown');
+        
+        // Command parameter definitions
+        const commandParameters = {
+            'Start Test': {
+                browser: ['chrome', 'firefox', 'webkit'],
+                'testing dimensions': ['functional', 'accessibility', 'security', 'performance'],
+                framework: ['selenium', 'playwright', 'auto']
+            },
+            'Execute Step': {
+                action: ['navigate', 'click', 'type', 'assert', 'wait']
+            },
+            'Get Report': {
+                format: ['html', 'json', 'junit']
+            },
+            'Heal Test': {
+                'auto-commit': ['true', 'false']
+            },
+            'List Tests': {
+                status: ['all', 'running', 'passed', 'failed', 'healing'],
+                limit: ['10', '25', '50', '100']
+            },
+            'Get Metrics': {
+                'metric-type': ['execution', 'quality', 'system', 'business'],
+                'time-range': ['1h', '24h', '7d', '30d']
+            },
+            'Reliability Score': {
+                'entity-type': ['test', 'module', 'adapter']
+            }
+        };
+        
+        function getCurrentCommand() {
+            const text = chatInput.value.trim();
+            for (const [cmd, params] of Object.entries(commandParameters)) {
+                if (text.toLowerCase().includes(cmd.toLowerCase())) {
+                    return cmd;
+                }
+            }
+            return null;
+        }
+        
+        function showAutocompleteSuggestions() {
+            const currentCmd = getCurrentCommand();
+            if (!currentCmd || !commandParameters[currentCmd]) {
+                autocompleteDropdown.classList.remove('show');
+                return;
+            }
+            
+            const params = commandParameters[currentCmd];
+            const text = chatInput.value.toLowerCase();
+            
+            // Find which parameter to suggest
+            let suggestedParams = [];
+            for (const [paramName, paramValues] of Object.entries(params)) {
+                if (!text.includes(paramName.toLowerCase())) {
+                    suggestedParams.push({ name: paramName, values: paramValues });
+                }
+            }
+            
+            if (suggestedParams.length === 0) {
+                autocompleteDropdown.classList.remove('show');
+                return;
+            }
+            
+            // Show first parameter's options
+            const { name, values } = suggestedParams[0];
+            autocompleteDropdown.innerHTML = values.map((val, idx) => `
+                <div class="autocomplete-item" data-value="${val}" onclick="insertAutocompleteValue('${val}', '${name}')">
+                    <div class="autocomplete-item-label">${val}</div>
+                    <div class="autocomplete-item-desc">${name}</div>
+                </div>
+            `).join('');
+            
+            autocompleteDropdown.classList.add('show');
+        }
+        
+        function insertAutocompleteValue(value, paramName) {
+            const currentText = chatInput.value;
+            const newText = currentText + ` ${paramName}: ${value}`;
+            chatInput.value = newText;
+            chatInput.focus();
+            chatInput.style.height = 'auto';
+            chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+            showAutocompleteSuggestions();
+        }
+
+        async function fetchSelectedModel() {
+            if (!modelText) return;
+            try {
+                const resp = await fetch('/config');
+                if (!resp.ok) {
+                    modelText.textContent = 'Model: N/A';
+                    return;
+                }
+                const cfg = await resp.json();
+                
+                // Check for configured AI provider first (cloud/custom APIs)
+                if (cfg?.ai?.provider && cfg?.ai?.model) {
+                    const provider = cfg.ai.provider.replace(/-/g, ' ').toUpperCase();
+                    modelText.textContent = `Provider: ${provider} | Model: ${cfg.ai.model}`;
+                    return;
+                }
+                
+                // Fall back to local Ollama model
+                const model = cfg?.vision?.ollama_model || cfg?.config?.vision_model || cfg?.OLLAMA_MODEL || cfg?.vision_model;
+                modelText.textContent = model ? `Model: ${model}` : 'Model: N/A';
+            } catch (err) {
+                modelText.textContent = 'Model: N/A';
+            }
+        }
+        
+        // Auto-resize textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            showAutocompleteSuggestions();
+        });
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        function sendQuickMessage(message) {
+            chatInput.value = message;
+            chatInput.focus();
+            // Auto-resize the textarea to fit content
+            chatInput.style.height = 'auto';
+            chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+            showAutocompleteSuggestions();
+        }
+        
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            
+            // Disable input while processing
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+            
+            // Show typing indicator
+            const typingId = showTypingIndicator();
+            
+            try {
+                console.log('Sending message:', message);
+                
+                // Determine the type of request
+                let response;
+                
+                if (message.toLowerCase().includes('health') || message.toLowerCase().includes('status')) {
+                    console.log('Making health check request...');
+                    response = await fetch('http://localhost:8000/health');
+                    const data = await response.json();
+                    removeTypingIndicator(typingId);
+                    const formattedResponse = formatResponse(data, message);
+                    addMessage(`📊 <strong>Health Status</strong>\n\n${formattedResponse}`, 'assistant');
+                } else if (message.toLowerCase().includes('config')) {
+                    console.log('Making config request...');
+                    response = await fetch('http://localhost:8000/config');
+                    const data = await response.json();
+                    removeTypingIndicator(typingId);
+                    const formattedResponse = formatResponse(data, message);
+                    addMessage(`⚙️ <strong>Configuration</strong>\n\n${formattedResponse}`, 'assistant');
+                } else {
+                    console.log('Making streaming test execution request...');
+                    // Use streaming endpoint for test execution
+                    response = await fetch('http://localhost:8000/api/test/execute/stream', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            requirements: message,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    removeTypingIndicator(typingId);
+                    
+                    // Create a container for streaming response
+                    const streamContainerId = Date.now().toString();
+                    const streamContainer = document.createElement('div');
+                    streamContainer.id = `stream-${streamContainerId}`;
+                    streamContainer.className = 'message assistant-message';
+                    streamContainer.innerHTML = `<div class="message-content" id="content-${streamContainerId}">
+                        <div id="reasoning-${streamContainerId}" style="padding: 10px; background: rgba(243, 156, 18, 0.1); border-left: 3px solid #f39c12; border-radius: 4px; min-height: 0px; display: none;"></div>
+                        <div id="content-area-${streamContainerId}" style="margin-top: 0px;"></div>
+                    </div>`;
+                    chatMessages.appendChild(streamContainer);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    const reasoningArea = document.getElementById(`reasoning-${streamContainerId}`);
+                    const contentArea = document.getElementById(`content-area-${streamContainerId}`);
+                    let reasoningCount = 0;
+                    
+                    // Read streaming response
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+                    
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop(); // Keep incomplete line in buffer
+                        
+                        for (const line of lines) {
+                            if (line.trim()) {
+                                try {
+                                    const event = JSON.parse(line);
+                                    console.log('Stream event:', event.type);
+                                    
+                                    if (event.type === 'reasoning') {
+                                        // Clean reasoning message
+                                        const reasoningMessage = (event.message || '').trim();
+                                        // Remove common prefixes and artifacts
+                                        const cleanMessage = reasoningMessage
+                                            .replace(/^💭\s*/, '')
+                                            .replace(/^🧠\s*/, '')
+                                            .replace(/^step\s+/i, '')
+                                            .replace(/^steps?\s*$/i, '')
+                                            .trim();
+                                        
+                                        // Only add substantial reasoning (not fragments)
+                                        if (cleanMessage && cleanMessage.length > 15 && !cleanMessage.match(/^steps?$/i)) {
+                                            reasoningCount++;
+                                            // Show reasoning box on first reasoning item
+                                            if (reasoningCount === 1) {
+                                                reasoningArea.style.display = 'block';
+                                            }
+                                            const reasoningItem = document.createElement('div');
+                                            reasoningItem.style.marginBottom = '10px';
+                                            reasoningItem.style.fontSize = '0.95em';
+                                            reasoningItem.style.lineHeight = '1.5';
+                                            reasoningItem.style.color = '#555';
+                                            reasoningItem.textContent = cleanMessage;
+                                            reasoningArea.appendChild(reasoningItem);
+                                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                                        }
+                                    } else if (event.type === 'content') {
+                                        // Show content area with margin only if reasoning box was shown
+                                        if (reasoningCount > 0) {
+                                            contentArea.style.marginTop = '15px';
+                                        }
+                                        contentArea.innerHTML += escapeHtml(event.chunk);
+                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                    } else if (event.type === 'complete') {
+                                        // Finalize the response - show full analysis
+                                        contentArea.innerHTML = `<strong>✅ Analysis Complete</strong><pre style="background: #f5f5f5; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 0.9em; margin-top: 10px;">${escapeHtml(event.message)}</pre>`;
+                                        console.log('Stream complete:', event.test_id);
+                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                    } else if (event.type === 'error') {
+                                        reasoningArea.innerHTML += `<div style="color: #e74c3c; margin-top: 10px;">❌ ${escapeHtml(event.message)}</div>`;
+                                        reasoningArea.style.display = 'block';
+                                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                                    }
+                                } catch (e) {
+                                    console.error('Error parsing stream event:', e);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Update status
+                if (statusText) {
+                    statusText.textContent = 'Connected';
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                removeTypingIndicator(typingId);
+                
+                let errorMessage = `❌ Error: ${error.message}\n\n`;
+                
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    errorMessage += '🔌 Cannot connect to server.\n\n';
+                    errorMessage += 'Please check:\n';
+                    errorMessage += '1. Server is running (run: python restart_server.py)\n';
+                    errorMessage += '2. Server is on http://localhost:8000\n';
+                    errorMessage += '3. Check browser console (F12) for details';
+                } else {
+                    errorMessage += 'Check the browser console (F12) for more details.';
+                }
+                
+                addMessage(errorMessage, 'assistant');
+                if (statusText) {
+                    statusText.textContent = 'Connection Error';
+                }
+            } finally {
+                chatInput.disabled = false;
+                sendButton.disabled = false;
+                chatInput.focus();
+            }
+        }
+        
+        function createMessageDiv(title, content, role) {
+            const id = Date.now().toString();
+            const div = document.createElement('div');
+            div.id = `msg-${id}`;
+            div.className = `message ${role}-message`;
+            div.innerHTML = `<div class="message-content">${title}<br><br>${content}</div>`;
+            return div;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function formatResponse(data, originalMessage) {
+            // Check if it's an autonomous test execution result
+            if (data.test_id && data.status && (data.status === 'completed' || data.status === 'failed' || data.status === 'error' || data.status === 'timeout')) {
+                let response = '';
+                
+                if (data.passed === true) {
+                    response += '✅ TEST PASSED!\n\n';
+                } else if (data.passed === false) {
+                    response += '❌ TEST FAILED\n\n';
+                } else if (data.status === 'timeout') {
+                    response += '⏱️ TEST TIMEOUT\n\n';
+                } else if (data.status === 'error' || data.status === 'failed') {
+                    response += '⚠️ TEST ERROR\n\n';
+                }
+                
+                response += `📋 Test ID: ${data.test_id}\n`;
+                response += `🔧 Framework: ${data.framework || 'playwright'}\n`;
+                
+                if (data.exit_code !== undefined) {
+                    response += `Exit Code: ${data.exit_code}\n`;
+                }
+                
+                if (data.output) {
+                    response += `\n📊 Output:\n\`\`\`\n${data.output.substring(0, 1000)}\n\`\`\``;
+                    if (data.output.length > 1000) {
+                        response += `\n(Output truncated, ${data.output.length - 1000} more characters)`;
+                    }
+                }
+                
+                if (data.error) {
+                    response += `\n❌ Error: ${data.error}`;
+                }
+                
+                if (data.code) {
+                    response += `\n\n📝 Generated Test Code:\n\`\`\`python\n${data.code.substring(0, 500)}\n\`\`\``;
+                    if (data.code.length > 500) {
+                        response += `\n(Code truncated, view full code in server logs)`;
+                    }
+                }
+                
+                return response;
+            }
+            
+            // Check if it's an AI-generated response from Ollama
+            if (data.ai_generated === true && data.message) {
+                return data.message;
+            }
+            
+            if (data.status === 'healthy' || data.components) {
+                // Health check response
+                let response = '✅ Server is healthy!\n\n';
+                response += `🔧 Vision Provider: ${data.components?.vision_provider || 'N/A'}\n`;
+                response += `🌐 Browser: ${data.components?.browser_driver || 'N/A'}\n`;
+                response += `💾 Database: ${data.components?.database || 'N/A'}\n`;
+                if (data.components?.ollama) {
+                    response += `🤖 Ollama: ${data.components.ollama}\n`;
+                }
+                if (data.config?.vision_model) {
+                    response += `\n📦 Vision Model: ${data.config.vision_model}`;
+                }
+                return response;
+            } else if (data.vision || data.execution) {
+                // Config response
+                let response = '⚙️ Current Configuration:\n\n';
+                response += `🔍 Vision Provider: ${data.vision?.provider || 'N/A'}\n`;
+                response += `📦 Model: ${data.vision?.ollama_model || 'N/A'}\n`;
+                response += `🌐 Browser: ${data.execution?.browser_driver || 'N/A'}\n`;
+                response += `💾 Database: ${data.database?.url?.split('///')[1] || 'N/A'}\n`;
+                return response;
+            } else if (data.status === 'accepted' || data.status === 'completed') {
+                // Test execution response (non-AI or with test plan)
+                let response = `✅ Test request accepted!\n\n`;
+                response += `📋 Test ID: ${data.test_id}\n`;
+                response += `📝 Requirements: "${data.requirements || originalMessage}"\n`;
+                if (data.estimated_time) {
+                    response += `⏱️ Estimated time: ${data.estimated_time}\n`;
+                }
+                if (data.next_steps && Array.isArray(data.next_steps)) {
+                    response += `\n🎯 Next Steps:\n`;
+                    data.next_steps.forEach((step, index) => {
+                        response += `${index + 1}. ${step}\n`;
+                    });
+                }
+                if (data.status_url) {
+                    response += `\n📊 Status URL: ${data.status_url}\n`;
+                }
+                response += `\n💡 The test framework is now processing your requirements using Ollama for AI vision analysis!`;
+                return response;
+            }
+            
+            return JSON.stringify(data, null, 2);
+        }
+        
+        function addMessage(content, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = type === 'user' ? '👤' : 'AI';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            // Convert newlines to <br> and preserve formatting
+            contentDiv.innerHTML = content.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'message assistant';
+            indicator.id = 'typingIndicator';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = 'AI';
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message-content typing-indicator';
+            typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            
+            indicator.appendChild(avatar);
+            indicator.appendChild(typingDiv);
+            chatMessages.appendChild(indicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return 'typingIndicator';
+        }
+        
+        function removeTypingIndicator(id) {
+            const indicator = document.getElementById(id);
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+        
+        // Check server status on load
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                const data = await response.json();
+                statusText.textContent = 'Connected';
+                // Update selected model display when server is reachable
+                fetchSelectedModel();
+            } catch (error) {
+                statusText.textContent = 'Server Offline';
+                if (modelText) modelText.textContent = 'Model: N/A';
+            }
+        }
+        
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Quick action buttons
+        document.querySelectorAll('.quick-action').forEach(button => {
+            button.addEventListener('click', () => {
+                const message = button.getAttribute('data-message');
+                const isGraceRelease = button.classList.contains('grace-special');
+                
+                if (isGraceRelease) {
+                    // Handle GRACE Release Analyzer specially
+                    showGraceReleaseDialog();
+                } else {
+                    sendQuickMessage(message);
+                }
+            });
+        });
+
+        // GRACE Release Analyzer Dialog
+        function showGraceReleaseDialog() {
+            addMessage("📦 **GRACE Release Analyzer** - Loading interface...", 'assistant');
+            
+            // Create a form for the release analyzer
+            const formHtml = `
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; border-left: 4px solid #f39c12; margin: 10px 0;">
+                    <h3>📦 GRACE Release Analyzer</h3>
+                    <p>Analyze DevOps release contents and auto-generate comprehensive test cases.</p>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Release Version (e.g., v2.5.0, v3.0.0):</label>
+                        <input type="text" id="releaseVersion" placeholder="e.g., v2.5.0" style="width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 6px; box-sizing: border-box;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Repository URL:</label>
+                        <input type="text" id="repoUrl" placeholder="e.g., https://github.com/org/repo or Azure DevOps URL" style="width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 6px; box-sizing: border-box;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Release Notes (paste directly or leave for auto-fetch):</label>
+                        <textarea id="releaseNotes" placeholder="Paste release notes here..." style="width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 6px; box-sizing: border-box; height: 80px; font-family: monospace; font-size: 12px;"></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Test Scope:</label>
+                        <select id="testScope" style="width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 6px; box-sizing: border-box;">
+                            <option value="functional">🧪 Functional Testing</option>
+                            <option value="integration">🔗 Integration Testing</option>
+                            <option value="regression">🔄 Regression Testing</option>
+                            <option value="security">🔒 Security Testing</option>
+                            <option value="performance">⚡ Performance Testing</option>
+                        </select>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="autoGenerate" checked style="cursor: pointer;">
+                            <span>Auto-generate test cases</span>
+                        </label>
+                    </div>
+                    
+                    <button id="analyzeReleaseBtn" style="background: linear-gradient(135deg, #f39c12, #f1c40f); color: #1a3a52; border: none; padding: 12px 24px; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 14px;">
+                        🚀 Analyze Release & Generate Tests
+                    </button>
+                </div>
+            `;
+            
+            addMessage(formHtml, 'assistant');
+            
+            // Attach the handler
+            setTimeout(() => {
+                const analyzeBtn = document.getElementById('analyzeReleaseBtn');
+                if (analyzeBtn) {
+                    analyzeBtn.addEventListener('click', async () => {
+                        const version = document.getElementById('releaseVersion').value;
+                        const repo = document.getElementById('repoUrl').value;
+                        const notes = document.getElementById('releaseNotes').value;
+                        const scope = document.getElementById('testScope').value;
+                        const autoGen = document.getElementById('autoGenerate').checked;
+                        
+                        if (!version || !repo) {
+                            addMessage("❌ Please provide at least Release Version and Repository URL", 'assistant');
+                            return;
+                        }
+                        
+                        await analyzeRelease(version, repo, notes, scope, autoGen);
+                    });
+                }
+            }, 100);
+        }
+        
+        // Send to GRACE Release Analyzer API
+        async function analyzeRelease(version, repo, notes, scope, autoGen) {
+            const version_clean = version.trim();
+            const repo_clean = repo.trim();
+            
+            // Better validation
+            if (!version_clean) {
+                addMessage("❌ **Release Version Required** - Please enter a version (e.g., v2.5.0, 3.0.0, EDCS 25.12)", 'assistant');
+                return;
+            }
+            
+            if (!repo_clean) {
+                addMessage("❌ **Repository URL Required** - Please enter a repository URL (e.g., https://github.com/org/repo)", 'assistant');
+                return;
+            }
+            
+            // Show user request
+            const message = `🔍 Analyzing release **${version_clean}** from **${repo_clean}**...\n⏳ This may take 1-2 minutes while AI analyzes the release...`;
+            addMessage(message, 'user');
+            
+            // Show that we're starting AI analysis
+            addMessage(`🤖 **AI Processing**\nAnalyzing release contents and generating test cases with AI reasoning...`, 'assistant');
+            
+            const typingId = showTypingIndicator();
+            
+            try {
+                // Create abort controller for 5 minute timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5 * 60 * 1000); // 5 minutes
+                
+                const response = await fetch('http://localhost:8000/api/grace/release-analyzer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        release_version: version_clean,
+                        repository: repo_clean,
+                        release_notes: notes,
+                        test_scope: scope,
+                        auto_generate: autoGen
+                    }),
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+                
+                // Show that analysis is being completed (PERSISTENT)
+                const analysisCompleteId = Date.now().toString();
+                const analysisCompleteDiv = document.createElement('div');
+                analysisCompleteDiv.id = `msg-${analysisCompleteId}`;
+                analysisCompleteDiv.className = 'message assistant-message';
+                analysisCompleteDiv.innerHTML = `<div class="message-content">✅ <strong>Analysis Complete</strong><br>Processing generated test cases...</div>`;
+                chatMessages.appendChild(analysisCompleteDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                if (data.status === 'success') {
+                    let result = `📊 **Generated Test Cases**\n\n`;
+                    result += `📦 **Version:** ${data.release_version}\n`;
+                    result += `🎯 **Scope:** ${data.test_scope}\n`;
+                    result += `⏰ **Generated:** ${new Date(data.timestamp).toLocaleString()}\n\n`;
+                    result += `**═══════════════════════════════════════**\n`;
+                    result += `**Analysis Results:**\n`;
+                    result += `**═══════════════════════════════════════**\n\n`;
+                    result += data.analysis;
+                    result += `\n\n**═══════════════════════════════════════**\n`;
+                    result += `✨ Copy these test cases into your test management system\n`;
+                    
+                    // Add final results (PERSISTENT)
+                    const resultId = Date.now().toString();
+                    const resultDiv = document.createElement('div');
+                    resultDiv.id = `msg-${resultId}`;
+                    resultDiv.className = 'message assistant-message';
+                    resultDiv.innerHTML = `<div class="message-content">${formatResponse(data, `Release: ${version_clean}`)}</div>`;
+                    chatMessages.appendChild(resultDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } else {
+                    addMessage(`❌ **Analysis Error:** ${data.error || 'Unknown error occurred'}`, 'assistant');
+                }
+                
+                statusText.textContent = 'Connected';
+                
+            } catch (error) {
+                removeTypingIndicator(typingId);
+                console.error('Error:', error);
+                
+                let errorMessage = `❌ **Release Analysis Failed**\n\n`;
+                
+                if (error.name === 'AbortError') {
+                    errorMessage += `⏱️ **Request Timed Out** (exceeded 5 minutes)\n\n`;
+                    errorMessage += `This usually means:\n`;
+                    errorMessage += `1. The LLM is taking too long to analyze\n`;
+                    errorMessage += `2. Ollama might be overloaded\n`;
+                    errorMessage += `3. The repository is very large\n\n`;
+                    errorMessage += `**Try:**\n`;
+                    errorMessage += `• Check if Ollama is running: ollama serve\n`;
+                    errorMessage += `• Use a smaller repository\n`;
+                    errorMessage += `• Paste release notes directly instead of auto-fetching\n`;
+                    errorMessage += `• Try again in a few moments`;
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage += `🔌 **Cannot Connect to Server**\n\n`;
+                    errorMessage += `Make sure:\n`;
+                    errorMessage += `1. Server is running: python run_server.py\n`;
+                    errorMessage += `2. Ollama is running: ollama serve\n`;
+                    errorMessage += `3. Try refreshing the page (F5)`;
+                } else {
+                    errorMessage += `**Error:** ${error.message}\n\n`;
+                    errorMessage += `Please check:\n`;
+                    errorMessage += `• Server is running\n`;
+                    errorMessage += `• Ollama is running and responsive\n`;
+                    errorMessage += `• Your internet connection`;
+                }
+                
+                addMessage(errorMessage, 'assistant');
+                statusText.textContent = 'Connection Error';
+            }
+        }
+
+        // Open model config UI
+        const openConfigBtn = document.getElementById('openConfig');
+        if (openConfigBtn) {
+            openConfigBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                try {
+                    const url = (window.location && window.location.origin) ? `${window.location.origin}/config_ui` : '/config_ui';
+                    window.open(url, '_blank');
+                    // attempt to refresh model label after user may change config
+                    setTimeout(fetchSelectedModel, 1500);
+                } catch (err) {
+                    console.error('Failed to open config UI', err);
+                    // fallback: navigate in same tab
+                    const url = '/config_ui';
+                    window.location.href = url;
+                }
+            });
+        }
+
+        // Open Azure Integration UI
+        const openAzureBtn = document.getElementById('openAzure');
+        if (openAzureBtn) {
+            openAzureBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                try {
+                    const url = (window.location && window.location.origin) ? `${window.location.origin}/azure/integration` : '/azure/integration';
+                    window.open(url, '_blank');
+                } catch (err) {
+                    console.error('Failed to open Azure integration UI', err);
+                    // fallback: navigate in same tab
+                    const url = '/azure/integration';
+                    window.location.href = url;
+                }
+            });
+        }
+        
+        checkServerStatus();
+        fetchSelectedModel();
+        setInterval(() => { checkServerStatus(); fetchSelectedModel(); }, 30000); // Check every 30 seconds
+        
+        console.log('All event listeners attached');
+    </script>
+</body>
+</html>
