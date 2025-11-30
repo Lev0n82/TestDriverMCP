@@ -1,0 +1,21 @@
+{
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        ".",
+        "-p",
+        "*test.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.analysis.aiHoverSummaries": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.disableTaggedHints": false,
+    "python.analysis.enableAsyncProgram": true,
+    "python.analysis.enablePerfTelemetry": false,
+    "python.analysis.enableTroubleshootMissingImports": true,
+    "python.analysis.generateWithTypeAnnotation": true,
+    "git.alwaysShowStagedChangesResourceGroup": true,
+    "git.autoStash": true
+}
