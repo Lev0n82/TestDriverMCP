@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCP Chat Test</title>
     <style>
         body {
@@ -56,23 +57,30 @@
         button:hover {
             background: #1a3a52;
         }
+        #status {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+        .status-bottom {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🚀 MCP Chat Test</h1>
         <p>Testing the TD(MCP)-GRACE chat interface</p>
-        
-        <div id="messages">
-            <div class="message"><strong>Welcome!</strong> This is a test chat interface.</div>
-        </div>
+        <div id="messages"></div>
         
         <div>
             <input type="text" id="input" placeholder="Type a message...">
             <button onclick="sendMessage()">Send</button>
         </div>
         
-        <p id="status" style="color: #666; font-size: 0.9em; margin-top: 15px;"></p>
+        <p id="status"></p>
     </div>
 
     <script>
