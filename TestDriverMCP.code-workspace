@@ -4,5 +4,24 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"playwrightBdd.configPath": "venv/Lib/site-packages/playwright/driver/package/types/types.d.ts",
+		"playwrightBdd.stepsFolder": "venv/Lib/site-packages/playwright/driver/package/lib/server",
+		"playwrightBdd.tsconfigPath": "",
+		"playwrightBdd.featureFolder": "features",
+		"playwrightBdd.tags": "",
+		"playwrightBdd.enableFeatureGen": true,
+		"playwrightBdd.testCommand": "npx playwright test ${tsconfigArg} --config=${configPath} ${tagsArg}",
+		"playwrightBdd.featureGenCommand": "npx bddgen --config=${configPath}",
+		"playwrightBdd.execution.retryCount": 2,
+		"playwrightBdd.execution.retryDelay": 2000,
+		"playwrightBdd.autoDiscoverConfig": true,
+		"playwrightBdd.stepsFilePattern": "**/*.{js,ts,mjs,mts}",
+		"playwrightBdd.cicd.githubToken": "",
+		"playwrightBdd.cicd.autoTriggerWorkflows": false,
+		"playwrightBdd.ui.showTagFilters": true,
+		"playwrightBdd.ui.showStatusFilters": true,
+		"playwrightBdd.ui.showExecutionHistory": true,
+		"playwrightBdd.ui.autoRefreshInterval": 0
+	}
 }

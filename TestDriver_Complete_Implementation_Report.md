@@ -221,6 +221,108 @@ config = {
 
 | Category | Tests | Passed | Failed | Success Rate |
 |----------|-------|--------|--------|--------------|
+
+---
+
+## **Recent Changes (Diagnostics & Robustness)**
+
+**Date:** 2025-11-30
+
+Summary: Minor but important robustness and UX improvements were applied to the MCP server and chat UI to: (1) retry alternate AI provider payload shapes when the primary OpenAI-style `messages` payload returns HTTP 400, (2) stream provider error bodies and reasoning events to the client for observability, and (3) render streamed responses as sanitized Markdown in the chat UI. A diagnostic script was added to reproduce and capture NDJSON streaming responses.
+
+- **Server fallback logic:** `run_server.py` now attempts the primary OpenAI-style payload (`messages`) and — on 400 or invalid response — retries fallback payloads using `input` and `prompt` keys. Each attempt generates a `reasoning` NDJSON event streamed back to the client.
+- **Error streaming:** When the provider returns an error (400/5xx), the server streams a truncated snippet of the error body and a contextual hint (e.g., check `AI_API_KEY`, `AI_API_URL`, `AI_MODEL`). This prevents opaque failures in the browser and aids debugging.
+- **Client Markdown rendering:** `chat_fresh.html` was updated to use `marked` + `DOMPurify` (CDN) to render streamed reasoning/content as sanitized CommonMark. This greatly improves readability for long, structured outputs such as release notes or generated test cases.
+- **Diagnostic script:** `tools/stream_capture.py` added to POST a long `requirements` payload to `POST /api/test/execute/stream` and print NDJSON events (start, reasoning, content, complete, error).
+
+---
+
+## **Repro & Diagnostics**
+
+How to reproduce the streaming workflow locally:
+
+- Start the server (PowerShell):
+
+  ```powershell
+  # from repository root
+  .\start-server.ps1
+  # or directly
+  python run_server.py
+  ```
+
+- Ensure AI provider configuration is set (environment or `.env`):
+
+  ```powershell
+  $env:AI_API_KEY = 'sk-...'
+  $env:AI_API_URL = 'https://api.ollama.cloud' # or provider URL
+  $env:AI_MODEL = 'gemini-3-pro-preview'
+  ```
+
+- Reproduce the stream with the included diagnostic script:
+
+  ```powershell
+  python tools/stream_capture.py
+  ```
+
+What you'll see:
+
+- NDJSON events printed line-by-line: `start`, many `reasoning` and `content` events, and a final `complete` event containing the assembled full response and metadata (provider, model, dialogue summary).
+- If AI provider rejects the payload with 400, server will stream `reasoning` messages that explain the fallback attempts and will stream a truncated `error` event containing the provider body.
+
+Where to inspect in the browser:
+
+- Open `http://localhost:8000/chat` (serves `chat_fresh.html`) and open DevTools Network console to watch the streaming response.
+- The chat UI renders `reasoning` blocks and `content` blocks as formatted Markdown (sanitized), and shows a final "✅ Response Complete" indicator.
+
+---
+
+## **Files Modified / Created**
+
+- `run_server.py` — Added fallback AI payload retry logic, enhanced streaming of `reasoning` and truncated `error` events, removed duplicate streaming block.
+- `chat_fresh.html` — Replaced light renderer with `marked` + `DOMPurify` rendering of streamed NDJSON events; updated streaming read loop.
+- `tools/stream_capture.py` — New diagnostic script to POST long requirements and print NDJSON events.
+
+---
+
+## **Streaming NDJSON Schema (Server → Client)**
+
+The server emits NDJSON lines where each JSON object includes a `type` field. Common types:
+
+- `start`: {"type":"start","test_id":"...","meta":{...}}
+- `reasoning`: {"type":"reasoning","text":"..."}
+- `content`: {"type":"content","chunk":"..."}
+- `error`: {"type":"error","status":400,"body_snippet":"...","hint":"check AI_API_KEY"}
+- `complete`: {"type":"complete","full_text":"...","provider":"ollama-cloud","model":"...","dialogue":{...}}
+
+Clients should parse NDJSON line-by-line, treat `reasoning` as incremental explainers, append `content` chunks into a final buffer, and display `complete` with full metadata.
+
+---
+
+## **Next Steps / Action Items**
+
+1. **Finalize error streaming behavior** — Parameterize truncation length via config and ensure no sensitive data is leaked. (Short-term)
+2. **Add more provider adapters** — Add explicit adapter for Ollama Cloud and Gemini (if needed) to remove guessing of payload shapes. (Medium)
+3. **Automated test for fallbacks** — Add unit/integration tests that simulate 400 responses and verify server emits `reasoning` events and retries payload shapes. (Medium)
+4. **CI pipeline integration** — Add `tools/stream_capture.py` usage to CI (or a test harness) to validate streaming endpoints on PRs. (Medium)
+5. **Complete documentation** — Merge this report and update `README.md` with reproduction steps and streaming contract. (Short)
+
+If you'd like, I can implement items 1–3 next; tell me which to prioritize.
+
+---
+
+## **Quick Checklist**
+
+- [x] Server fallback payload attempts implemented
+- [x] Streamed reasoning and truncated error bodies to client
+- [x] Chat UI renders sanitized Markdown using `marked` + `DOMPurify`
+- [x] Diagnostic script added and executed successfully
+- [ ] Parameterize truncation / redact sensitive data before streaming
+- [ ] Add unit/integration tests for provider fallback behavior
+- [ ] CI integration for streaming endpoint verification
+
+---
+
+End of additions.
 | **Integration Tests** | 7 | 7 | 0 | 100% |
 | **Qdrant Vector Store** | 10 | 10 | 0 | 100% |
 | **Selenium WebDriver** | 11 | 11 | 0 | 100% |
