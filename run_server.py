@@ -524,7 +524,11 @@ async def execute_test(test_plan: dict):
             model = os.getenv("OLLAMA_MODEL", "llava:13b")
             
             # System prompt for TestDriver MCP context
-            system_prompt = """You are an AI assistant for TestDriver MCP (Model Context Protocol) - an advanced automated testing framework.
+            system_prompt = """You are GRACE - Generative Requirement-Aware Cognitive Engineering, an AI assistant for TestDriver MCP (Model Context Protocol) - an advanced automated testing framework.
+
+GRACE operates in the spirit of Admiral Grace Hopper, believing that technology should serve human logic, not obscure it. Your full identity is:
+
+**GRACE: Generative Requirement-Aware Cognitive Engineering**
 
 TestDriver MCP includes:
 - Playwright: Modern browser automation for Chromium, Firefox, WebKit
@@ -534,7 +538,7 @@ TestDriver MCP includes:
 - Test execution engine: Autonomous test plan generation and execution
 
 You help users:
-1. Generate comprehensive test plans from requirements
+1. Generate comprehensive test plans from requirements using semantic understanding
 2. Write automated test scripts (Playwright, Selenium)
 3. Design test cases for web apps, APIs, mobile apps
 4. Debug failing tests with visual analysis
@@ -922,7 +926,11 @@ async def execute_test_stream(test_plan: dict):
                 model = os.getenv("OLLAMA_MODEL", "llava:13b")
                 
                 # System prompt for TestDriver MCP context
-                system_prompt = """You are an AI assistant for TestDriver MCP (Model Context Protocol) - an advanced automated testing framework.
+                system_prompt = """You are GRACE - Generative Requirement-Aware Cognitive Engineering, an AI assistant for TestDriver MCP (Model Context Protocol) - an advanced automated testing framework.
+
+GRACE operates in the spirit of Admiral Grace Hopper, believing that technology should serve human logic, not obscure it. Your full identity is:
+
+**GRACE: Generative Requirement-Aware Cognitive Engineering**
 
 TestDriver MCP includes:
 - Playwright: Modern browser automation for Chromium, Firefox, WebKit
@@ -932,7 +940,7 @@ TestDriver MCP includes:
 - Test execution engine: Autonomous test plan generation and execution
 
 You help users:
-1. Generate comprehensive test plans from requirements
+1. Generate comprehensive test plans from requirements using semantic understanding
 2. Write automated test scripts (Playwright, Selenium)
 3. Design test cases for web apps, APIs, mobile apps
 4. Debug failing tests with visual analysis
@@ -1158,7 +1166,7 @@ Return ONLY the Python code, no explanations."""
             json={
                 "model": model,
                 "messages": [
-                    {"role": "system", "content": "You are an expert QA automation engineer. Generate only valid, executable test code."},
+                    {"role": "system", "content": "You are GRACE - Generative Requirement-Aware Cognitive Engineering, an expert QA automation engineer operating in the spirit of Admiral Grace Hopper. Your full identity is GRACE: Generative Requirement-Aware Cognitive Engineering. Generate only valid, executable test code."},
                     {"role": "user", "content": generation_prompt}
                 ],
                 "stream": False
@@ -1330,7 +1338,7 @@ Provide a structured analysis with:
                     "messages": [
                         {
                             "role": "system",
-                            "content": "You are GRACE - an expert QA architect and test case generation specialist. Provide comprehensive, well-structured test cases."
+                            "content": "You are GRACE - Generative Requirement-Aware Cognitive Engineering, an expert QA architect and test case generation specialist operating in the spirit of Admiral Grace Hopper. Your full identity is GRACE: Generative Requirement-Aware Cognitive Engineering. Provide comprehensive, well-structured test cases."
                         },
                         {
                             "role": "user",
@@ -1351,7 +1359,7 @@ Provide a structured analysis with:
                     "messages": [
                         {
                             "role": "system",
-                            "content": "You are GRACE - an expert QA architect."
+                            "content": "You are GRACE - Generative Requirement-Aware Cognitive Engineering, an expert QA architect operating in the spirit of Admiral Grace Hopper. Your full identity is GRACE: Generative Requirement-Aware Cognitive Engineering."
                         },
                         {
                             "role": "user",

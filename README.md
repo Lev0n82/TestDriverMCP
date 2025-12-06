@@ -1,16 +1,18 @@
-# 🚀 TestDriver MCP Framework v2.0
+# 🚀 TD(MCP)-GRACE: Generative Requirement-Aware Cognitive Engineering
 
 ## The Future of Autonomous Software Testing is Here
 
-**TestDriver MCP Framework v2.0** is a revolutionary autonomous testing platform that combines AI vision, self-healing capabilities, and intelligent test generation to eliminate the pain points of traditional end-to-end testing. Built on the Model Context Protocol (MCP), it delivers unprecedented flexibility, reliability, and intelligence.
+**TD(MCP)-GRACE (Generative Requirement-Aware Cognitive Engineering)** is a revolutionary autonomous testing platform that combines AI vision, self-healing capabilities, and intelligent test generation to eliminate the pain points of traditional end-to-end testing. Built on the Model Context Protocol (MCP), it delivers unprecedented flexibility, reliability, and intelligence in honor of Admiral Grace Hopper's pioneering spirit in computational engineering.
 
- 
+**Formerly known as:** TestDriver MCP Framework v2.0 - Now rebranded as GRACE to honor the legacy of Admiral Grace Murray Hopper, computer science pioneer and originator of the first compiler.
 
-## ✨ What Makes TestDriver MCP Framework Unique?
+  
+
+## ✨ What Makes GRACE Unique?
 
 ### 🎯 1. True AI-Powered Vision Testing
 
-Unlike traditional frameworks that rely on brittle CSS selectors or xpaths, TestDriverMCP uses **computer vision and AI** to interact with applications exactly as a human would.
+Unlike traditional frameworks that rely on brittle CSS selectors or xpaths, GRACE uses **computer vision and AI** to interact with applications exactly as a human would.
 
 **Traditional Approach (Selenium/Playwright):**
 ```javascript
@@ -18,7 +20,7 @@ const button = await page.$('div[class="product-card"] >> text="Add to Cart" >> 
 await button.click();
 ```
 
-**TestDriver MCP Approach:**
+**GRACE Approach:**
 ```yaml
 version: 6.0.0
 steps:
@@ -36,7 +38,7 @@ steps:
 
 ### 🔄 2. Self-Healing Tests That Fix Themselves
 
-TestDriver doesn't just detect broken tests—it **automatically heals them** and opens pull requests with the fixes.
+GRACE doesn't just detect broken tests—it **automatically heals them** and opens pull requests with the fixes.
 
 **How It Works:**
 
@@ -55,7 +57,7 @@ TestDriver doesn't just detect broken tests—it **automatically heals them** an
 
 ### 🌐 3. Universal Execution: Selenium + Playwright in One Framework
 
-TestDriver provides a **unified interface** for both Selenium and Playwright, allowing you to:
+GRACE provides a **unified interface** for both Selenium and Playwright, allowing you to:
 
 - Switch between frameworks without rewriting tests
 - Use Playwright for modern web apps and Selenium for legacy systems
@@ -75,7 +77,7 @@ await driver.type("email@example.com", "Email")
 
 ### 🧠 4. Continuous Learning & Optimization
 
-TestDriver **learns from every test execution** to improve future performance:
+GRACE **learns from every test execution** to improve future performance:
 
 - **Adaptive Wait Times:** Automatically optimizes wait durations based on application behavior
 - **Element Memory:** Remembers successful element locations using vector similarity search
@@ -93,7 +95,7 @@ Expected Impact: 15% faster test execution
 
 ### 🎨 5. Cross-Layer Validation
 
-TestDriver validates consistency **across UI, API, and database layers simultaneously**:
+GRACE validates consistency **across UI, API, and database layers simultaneously**:
 
 ```python
 # Validate that UI, API, and DB all show the same data
@@ -114,7 +116,7 @@ if result.has_discrepancies:
 
 ### 🔐 6. Built-In Security & Performance Testing
 
-TestDriver includes **comprehensive testing capabilities** beyond functional validation:
+GRACE includes **comprehensive testing capabilities** beyond functional validation:
 
 **Security Testing:**
 - SQL injection detection
@@ -133,7 +135,7 @@ TestDriver includes **comprehensive testing capabilities** beyond functional val
 
 ### 📊 7. Qdrant Vector Database for Intelligent Memory
 
-TestDriver uses **Qdrant vector database** to store and retrieve element memories based on visual and semantic similarity:
+GRACE uses **Qdrant vector database** to store and retrieve element memories based on visual and semantic similarity:
 
 ```python
 # Store element memory
@@ -161,7 +163,7 @@ similar = await vector_store.find_similar_elements(
 
 ### 🎭 8. Environment Drift Detection
 
-TestDriver **proactively detects** when your test environment diverges from production:
+GRACE **proactively detects** when your test environment diverges from production:
 
 - Browser version changes
 - Screen resolution differences
@@ -183,7 +185,7 @@ Recommendation: Update test environment or adjust visual thresholds
 
 ### 🔁 9. Deterministic Replay Engine
 
-When tests fail, TestDriver can **replay them deterministically** with full state restoration:
+When tests fail, GRACE can **replay them deterministically** with full state restoration:
 
 ```python
 # Capture checkpoint
@@ -209,7 +211,7 @@ await replay_engine.replay_from_checkpoint(
 
 ### 📈 10. Production-Grade Observability
 
-TestDriver includes **comprehensive monitoring** out of the box:
+GRACE includes **comprehensive monitoring** out of the box:
 
 - **Prometheus Metrics:** Test execution times, healing rates, success rates
 - **Health Checks:** Automatic service health monitoring
@@ -288,11 +290,11 @@ testdriver_vision_api_calls_total 1247
 
 ### Quick Start: Local Development
 
-**Step 1: Extract the Package**
+**Step 1: Clone and Navigate**
 
 ```bash
-tar -xzf testdriver-mcp-100percent-complete-v2.0.tar.gz
-cd testdriver-mcp-full
+git clone https://github.com/your-org/testdriver-mcp-grace.git
+cd testdriver-mcp-grace
 ```
 
 **Step 2: Install Dependencies**
@@ -352,10 +354,10 @@ python3 -m pytest tests/ -v
 python3 -m pytest tests/test_integration.py -v
 ```
 
-**Step 6: Start the MCP Server**
+**Step 6: Start the GRACE Server**
 
 ```bash
-python3 src/main.py
+python3 run_server.py
 ```
 
 The server will start on `http://localhost:8000` with health checks at `/health`.
@@ -364,11 +366,11 @@ The server will start on `http://localhost:8000` with health checks at `/health`
 
 ### Docker Compose Deployment (Recommended)
 
-**Step 1: Extract and Navigate**
+**Step 1: Clone and Navigate**
 
 ```bash
-tar -xzf testdriver-mcp-100percent-complete-v2.0.tar.gz
-cd testdriver-mcp-full
+git clone https://github.com/your-org/testdriver-mcp-grace.git
+cd testdriver-mcp-grace
 ```
 
 **Step 2: Configure Environment**
@@ -385,7 +387,7 @@ docker-compose up -d
 ```
 
 This starts:
-- TestDriver MCP Server
+- GRACE MCP Server
 - PostgreSQL database
 - Qdrant vector database
 - Prometheus metrics
@@ -432,7 +434,7 @@ kubectl apply -f deployment/kubernetes/postgres.yaml
 # Deploy Qdrant
 kubectl apply -f deployment/kubernetes/qdrant.yaml
 
-# Deploy TestDriver
+# Deploy GRACE
 kubectl apply -f deployment/kubernetes/testdriver.yaml
 
 # Deploy Monitoring
@@ -469,17 +471,17 @@ kubectl apply -f deployment/kubernetes/ingress.yaml
 ### Example 1: Basic Web Test with Self-Healing
 
 ```python
-from src.mcp_server.server import TestDriverMCP
+from run_server import GRACEServer
 from src.execution.playwright_driver import PlaywrightDriver
 from src.vision.openai_adapter import OpenAIVisionAdapter
 
 # Initialize components
 driver = PlaywrightDriver()
 vision = OpenAIVisionAdapter()
-mcp = TestDriverMCP(driver=driver, vision=vision)
+grace = GRACEServer(driver=driver, vision=vision)
 
 # Run test with auto-healing enabled
-result = await mcp.execute_test(
+result = await grace.execute_test(
     test_yaml="""
     version: 6.0.0
     steps:
@@ -657,12 +659,12 @@ print(f"Throughput: {results.requests_per_second} req/s")
 
 ## 🚀 Get Started Today
 
-### Download & Install
+### Quick Installation
 
 ```bash
-# Extract the package
-tar -xzf testdriver-mcp-100percent-complete-v2.0.tar.gz
-cd testdriver-mcp-full
+# Clone the repository
+git clone https://github.com/your-org/testdriver-mcp-grace.git
+cd testdriver-mcp-grace
 
 # Quick start with Docker
 docker-compose up -d
@@ -693,7 +695,7 @@ open http://localhost:9090
 
 ---
 
-## 💡 Why Choose TestDriver MCP Framework?
+## 💡 Why Choose GRACE?
 
 ### The Problem
 
@@ -706,7 +708,7 @@ Traditional testing frameworks suffer from:
 
 ### The Solution
 
-TestDriver MCP Framework delivers:
+GRACE delivers:
 - **Self-healing tests** that fix themselves automatically
 - **60-80% reduction** in maintenance effort
 - **Universal compatibility** with Selenium and Playwright
@@ -715,7 +717,7 @@ TestDriver MCP Framework delivers:
 
 ### The Results
 
-Organizations using TestDriver MCP Framework achieve:
+Organizations using GRACE achieve:
 - **90-95% test reliability** improvement
 - **154-200% ROI** in Year 1
 - **< 30 seconds** mean time to heal broken tests
@@ -739,15 +741,15 @@ Organizations using TestDriver MCP Framework achieve:
 
 ## 📄 License
 
-TestDriver MCP Framework v2.0 is released under the MIT License.
+GRACE is released under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🎉 Ready to Transform Your Testing?
 
-Download TestDriver MCP Framework v2.0 today and experience the future of autonomous software testing.
+Download TD(MCP)-GRACE today and experience the future of autonomous software testing, inspired by Admiral Grace Hopper's pioneering spirit in computational engineering.
 
-**Package:** `testdriver-mcp-100percent-complete-v2.0.tar.gz`
+**Repository:** `https://github.com/your-org/testdriver-mcp-grace`
 
 **What's Inside:**
 - Complete source code (16/16 features)
@@ -759,50 +761,50 @@ Download TestDriver MCP Framework v2.0 today and experience the future of autono
 
 **Get Started in 5 Minutes:**
 ```bash
-tar -xzf testdriver-mcp-100percent-complete-v2.0.tar.gz
-cd testdriver-mcp-full
+git clone https://github.com/your-org/testdriver-mcp-grace.git
+cd testdriver-mcp-grace
 docker-compose up -d
 curl http://localhost:8000/health
 ```
 
 ---
 
-*TestDriver MCP Framework v2.0 - Autonomous Testing, Intelligent Healing, Zero Maintenance*
+*TD(MCP)-GRACE - Generative Requirement-Aware Cognitive Engineering - Autonomous Testing, Intelligent Healing, Zero Maintenance*
 
 
-# TestDriver: An Intelligent Approach to Software Quality Assurance
+# GRACE: An Intelligent Approach to Software Quality Assurance
 
-## Understanding TestDriver: A Logical Foundation
+## Understanding GRACE: A Logical Foundation
 
 Let us begin with first principles. When we test software, what are we truly attempting to verify? The answer, when examined carefully, reveals itself to be quite simple: we want to know whether a human user can accomplish their intended goals through the interface. This seemingly obvious truth has profound implications for how we should approach automated testing.
 
-TestDriver represents a computer-use agent designed specifically for quality assurance testing of user interfaces. The system employs artificial intelligence vision capabilities combined with keyboard and mouse control to automate what we call end-to-end testing. What distinguishes TestDriver from conventional approaches is its "selectorless" methodology—it does not rely on CSS selectors or static code analysis to locate interface elements.
+GRACE represents a computer-use agent designed specifically for quality assurance testing of user interfaces. The system employs artificial intelligence vision capabilities combined with keyboard and mouse control to automate what we call end-to-end testing. What distinguishes GRACE from conventional approaches is its "selectorless" methodology—it does not rely on CSS selectors or static code analysis to locate interface elements.
 
-Consider the elegance of this design choice. Traditional testing frameworks require developers to specify precisely which HTML element, identified by its class name or ID attribute, should receive a click or input. TestDriver instead operates as a human would: by looking at the screen and understanding what it sees.
+Consider the elegance of this design choice. Traditional testing frameworks require developers to specify precisely which HTML element, identified by its class name or ID attribute, should receive a click or input. GRACE instead operates as a human would: by looking at the screen and understanding what it sees.
 
 ### The Cross-Platform Advantage
 
-TestDriver's architecture enables testing across web applications, mobile interfaces, desktop software, and more—all through a single unified tool. This universality stems from its fundamental approach: rather than hooking into specific browser APIs or mobile frameworks, it observes and interacts with the visual interface itself.
+GRACE's architecture enables testing across web applications, mobile interfaces, desktop software, and more—all through a single unified tool. This universality stems from its fundamental approach: rather than hooking into specific browser APIs or mobile frameworks, it observes and interacts with the visual interface itself.
 
 ### Simplified Setup and Reduced Maintenance
 
-The traditional approach demands that developers craft and maintain complex selectors—those arcane strings of characters that identify specific elements in the document object model. TestDriver eliminates this requirement entirely. When code changes occur (and they invariably do), tests written in TestDriver's natural language format continue to function because they describe intent rather than implementation.
+The traditional approach demands that developers craft and maintain complex selectors—those arcane strings of characters that identify specific elements in the document object model. GRACE eliminates this requirement entirely. When code changes occur (and they invariably do), tests written in GRACE's natural language format continue to function because they describe intent rather than implementation.
 
 ### The YAML Advantage
 
-TestDriver distinguishes itself from other computer-use agents through its production of YAML-based test scripts. This structured format enhances both the speed and repeatability of testing operations, providing a clear, human-readable record of test procedures that can be version-controlled and reviewed like any other code artifact.
+GRACE distinguishes itself from other computer-use agents through its production of YAML-based test scripts. This structured format enhances both the speed and repeatability of testing operations, providing a clear, human-readable record of test procedures that can be version-controlled and reviewed like any other code artifact.
 
 ## The Selectorless Testing Paradigm
 
-Traditional frameworks such as Selenium and Playwright require developers to specify elements using CSS selectors or static analysis. TestDriver takes a fundamentally different approach: tests are described in plain English. Consider this example:
+Traditional frameworks such as Selenium and Playwright require developers to specify elements using CSS selectors or static analysis. GRACE takes a fundamentally different approach: tests are described in plain English. Consider this example:
 
 ```
-> Open Google Chrome and search for "testdriver"
+> Open Google Chrome and search for "GRACE testing"
 ```
 
 This natural language instruction allows you to write tests without concerning yourself with the underlying code structure. The implications are significant:
 
-You can test any user flow on any website in any browser, regardless of the specific implementation details. You can clone, build, and test desktop applications without modifying your testing approach. Multiple browser windows and popups, including third-party authentication flows, can be rendered and tested. Elements that traditionally prove challenging—canvas elements, iframes, and video tags—become testable with ease. File upload functionality, browser resizing, Chrome extensions, and cross-application integrations all fall within TestDriver's capabilities.
+You can test any user flow on any website in any browser, regardless of the specific implementation details. You can clone, build, and test desktop applications without modifying your testing approach. Multiple browser windows and popups, including third-party authentication flows, can be rendered and tested. Elements that traditionally prove challenging—canvas elements, iframes, and video tags—become testable with ease. File upload functionality, browser resizing, Chrome extensions, and cross-application integrations all fall within GRACE's capabilities.
 
 ## The Fundamental Problem with Current End-to-End Testing
 
@@ -818,19 +820,19 @@ This tight coupling creates a maintenance burden. Developers must invest time un
 
 ## End-to-End Testing Should Focus on Users, Not Code
 
-When we step back and think clearly about end-to-end testing, we recognize that the business priority is usability. What truly matters is whether the user can accomplish their goal. TestDriver embraces this truth by using human language to define test requirements. The simulated software tester then determines how to accomplish those goals.
+When we step back and think clearly about end-to-end testing, we recognize that the business priority is usability. What truly matters is whether the user can accomplish their goal. GRACE embraces this truth by using human language to define test requirements. The simulated software tester then determines how to accomplish those goals.
 
 Consider the contrast:
 
-| Traditional Approach (Selectors) | TestDriver Approach |
-|----------------------------------|---------------------|
+| Traditional Approach (Selectors) | GRACE Approach |
+|----------------------------------|----------------|
 | `div[class="product-card"] >> text="Add to Cart" >> nth=2` | buy the 2nd product |
 
 These high-level instructions prove easier to create and maintain because they are loosely coupled from the codebase. We describe a high-level goal rather than a low-level interaction. The tests continue to work even when a junior developer changes `.product-card` to `.product.card` or when designers change "Add to Cart" to "Buy Now." The underlying concepts remain constant, allowing the AI to adapt.
 
-## The Mechanism: How TestDriver Achieves This
+## The Mechanism: How GRACE Achieves This
 
-TestDriver employs a combination of reinforcement learning and computer vision. Context from successful test executions informs future executions. When locating a text match, the model considers multiple contextual factors:
+GRACE employs a combination of reinforcement learning and computer vision. Context from successful test executions informs future executions. When locating a text match, the model considers multiple contextual factors:
 
 | Context | Description | Source |
 |---------|-------------|--------|
@@ -846,17 +848,17 @@ TestDriver employs a combination of reinforcement learning and computer vision. 
 | Description | Elaborate description of target element including position and function | Past Execution |
 | Text | Exact text value clicked | Past Execution |
 
-This rich contextual understanding enables TestDriver to make intelligent decisions about element location and interaction.
+This rich contextual understanding enables GRACE to make intelligent decisions about element location and interaction.
 
 ## Selectorless Testing: A Deeper Examination
 
-The selectorless testing approach simplifies end-to-end testing by using natural language and AI vision. It eliminates the need for brittle selectors like CSS classes, IDs, or XPath expressions. Instead, TestDriver uses natural language prompts and AI-powered vision to interact with applications as a user would. This makes tests more resilient to UI changes and reduces maintenance overhead significantly.
+The selectorless testing approach simplifies end-to-end testing by using natural language and AI vision. It eliminates the need for brittle selectors like CSS classes, IDs, or XPath expressions. Instead, GRACE uses natural language prompts and AI-powered vision to interact with applications as a user would. This makes tests more resilient to UI changes and reduces maintenance overhead significantly.
 
-The key insight is that selectorless testing focuses on what the user sees rather than how the UI is implemented. Tests remain resilient to changes like text updates, class renaming, or minor layout adjustments. By using natural language and AI vision, TestDriver simplifies both test creation and maintenance.
+The key insight is that selectorless testing focuses on what the user sees rather than how the UI is implemented. Tests remain resilient to changes like text updates, class renaming, or minor layout adjustments. By using natural language and AI vision, GRACE simplifies both test creation and maintenance.
 
 ### A Concrete Example
 
-Consider the following TestDriver test:
+Consider the following GRACE test:
 
 ```
 version: 6.0.0
@@ -873,13 +875,13 @@ steps:
         expect: The registration form is visible
 ```
 
-TestDriver locates the target for `hover-text` based on its context and description. The agent searches for elements in the following order:
+GRACE locates the target for `hover-text` based on its context and description. The agent searches for elements in the following order:
 
 First, it looks for the exact text match specified in the `text` field. If the exact text is not found or if multiple matches exist, it uses the `description` field—a description of the element. If no match is found through these methods, it uses the high-level `prompt` to regenerate the test.
 
 ### Adaptation to Interface Changes
 
-What happens when "Sign Up" changes to "Register"? This question reveals the power of TestDriver's approach. If the button text changes to "Register," TestDriver's AI vision will still locate the button based on its context and description. You need not update the test manually. TestDriver will then update the test to reflect the new UI by modifying the text field and will open a new pull request with the changes:
+What happens when "Sign Up" changes to "Register"? This question reveals the power of GRACE's approach. If the button text changes to "Register," GRACE's AI vision will still locate the button based on its context and description. You need not update the test manually. GRACE will then update the test to reflect the new UI by modifying the text field and will open a new pull request with the changes:
 
 ```
 version: 6.0.0
@@ -904,15 +906,15 @@ const button = await page.$('button[class="sign-up-btn"]');
 
 When using legacy frameworks, if the class name changes, the test breaks, requiring updates to the test code. Selectorless testing avoids this by focusing on the intent of the interaction rather than the implementation details.
 
-## Comparative Analysis: TestDriver vs. Playwright vs. Selenium
+## Comparative Analysis: GRACE vs. Playwright vs. Selenium
 
-A rational evaluation of testing tools requires comparing their capabilities across multiple dimensions. Let us examine how TestDriver compares to established frameworks.
+A rational evaluation of testing tools requires comparing their capabilities across multiple dimensions. Let us examine how GRACE compares to established frameworks.
 
 ### Application Support
 
-TestDriver operates a full desktop environment, which means it can run any application. This represents a fundamental architectural difference from browser-focused frameworks.
+GRACE operates a full desktop environment, which means it can run any application. This represents a fundamental architectural difference from browser-focused frameworks.
 
-| Application | TestDriver | Playwright | Selenium |
+| Application | GRACE | Playwright | Selenium |
 |:-----------------:|:---------:|:-----------:|:--------:|
 | Web Apps | ✅ | ✅ | ✅ |
 | Mobile Apps | ✅ | ✅ | ✅ |
@@ -922,9 +924,9 @@ TestDriver operates a full desktop environment, which means it can run any appli
 
 ### Testing Features
 
-TestDriver adopts an AI-first philosophy, which manifests in several unique capabilities:
+GRACE adopts an AI-first philosophy, which manifests in several unique capabilities:
 
-| Feature | TestDriver | Playwright | Selenium |
+| Feature | GRACE | Playwright | Selenium |
 |:--------------------:|:---------:|:----------:|:--------:|
 | Test Generation | ✅ | | |
 | Adaptive Testing | ✅ | | |
@@ -937,9 +939,9 @@ TestDriver adopts an AI-first philosophy, which manifests in several unique capa
 
 ### Test Coverage
 
-TestDriver provides more comprehensive coverage than selector-based frameworks. Consider what can be tested:
+GRACE provides more comprehensive coverage than selector-based frameworks. Consider what can be tested:
 
-| Feature | TestDriver | Playwright | Selenium |
+| Feature | GRACE | Playwright | Selenium |
 |---------|:---------:|:----------:|:--------:|
 | Browser Viewport | ✅ | ✅ | ✅ |
 | Browser App | ✅ | | |
@@ -955,9 +957,9 @@ TestDriver provides more comprehensive coverage than selector-based frameworks. 
 
 ### Debugging Features
 
-Debugging capabilities are powered by Dashcam.io:
+Debugging capabilities are powered by advanced AI analysis:
 
-| Feature | TestDriver | Playwright | Selenium |
+| Feature | GRACE | Playwright | Selenium |
 |:------------------:|:----------:|:----------:|:--------:|
 | AI Summary | ✅ | | |
 | Video Replay | ✅ | ✅ | |
@@ -969,9 +971,9 @@ Debugging capabilities are powered by Dashcam.io:
 
 ### Web Browser Support
 
-TestDriver is browser agnostic and supports any version of any browser:
+GRACE is browser agnostic and supports any version of any browser:
 
-| Browser | TestDriver | Playwright | Selenium |
+| Browser | GRACE | Playwright | Selenium |
 |:--------:|:----------:|:----------:|:--------:|
 | Chrome | ✅ | ✅ | ✅ |
 | Firefox | ✅ | ✅ | ✅ |
@@ -983,9 +985,9 @@ TestDriver is browser agnostic and supports any version of any browser:
 
 ### Operating System Support
 
-TestDriver currently supports Mac and Windows:
+GRACE currently supports Mac and Windows:
 
-| OS | TestDriver | Playwright | Selenium |
+| OS | GRACE | Playwright | Selenium |
 |:--------:|:----------:|:----------:|:--------:|
 | Windows | ✅ | ✅ | ✅ |
 | Mac | ✅ | ✅ | ✅ |
@@ -993,7 +995,7 @@ TestDriver currently supports Mac and Windows:
 
 ## Performance Characteristics: Expected Command Performance
 
-Understanding the performance characteristics of each TestDriver command allows you to optimize test design, identify bottlenecks, and set realistic expectations. These measurements represent observed average execution times.
+Understanding the performance characteristics of each GRACE command allows you to optimize test design, identify bottlenecks, and set realistic expectations. These measurements represent observed average execution times.
 
 ### Fastest Commands
 
@@ -1039,21 +1041,21 @@ Avoid overusing `match-image` unless strictly necessary. Prefer `wait-for-text` 
 
 ## Frequently Asked Questions: Logical Answers to Common Inquiries
 
-### What is TestDriver?
+### What is GRACE?
 
-TestDriver is an AI-powered testing platform that simulates user interactions to automate end-to-end testing for web, desktop, and mobile applications.
+GRACE (Generative Requirement-Aware Cognitive Engineering) is an AI-powered testing platform that simulates user interactions to automate end-to-end testing for web, desktop, and mobile applications.
 
-### How does TestDriver work?
+### How does GRACE work?
 
 It interprets high-level prompts, interacts with interfaces as a user would, and verifies expected outcomes using visual assertions.
 
-### What platforms does TestDriver support?
+### What platforms does GRACE support?
 
-TestDriver supports Windows, Mac, Linux, desktop apps, Chrome extensions, web browsers, and mobile interfaces (via emulator or device farm).
+GRACE supports Windows, Mac, Linux, desktop apps, Chrome extensions, web browsers, and mobile interfaces (via emulator or device farm).
 
 ### Can it be used for exploratory testing?
 
-Yes. TestDriver can autonomously navigate the application to generate new test cases.
+Yes. GRACE can autonomously navigate the application to generate new test cases.
 
 ### Can it test desktop applications?
 
@@ -1063,13 +1065,13 @@ Yes. It supports testing native desktop applications by simulating mouse and key
 
 Yes, via mobile emulators or integration with device farms.
 
-### Can TestDriver generate tests automatically?
+### Can GRACE generate tests automatically?
 
 Yes, it explores the app and creates test cases based on UI flows and user interactions.
 
 ### Can I create tests from natural language prompts?
 
-Yes. You can write high-level instructions in plain language, and TestDriver will interpret and build tests from them.
+Yes. You can write high-level instructions in plain language, and GRACE will interpret and build tests from them.
 
 ### Can it generate tests from user stories or documentation?
 
@@ -1077,25 +1079,25 @@ Yes. It can use minimal descriptions to produce complete test cases.
 
 ### Can it turn recorded user sessions into tests?
 
-No. An important part of AI-native testing is understanding the intent behind actions. TestDriver focuses on understanding user goals rather than merely recording actions. This distinction is crucial: recording captures what happened, while intent-based testing captures why it happened.
+No. An important part of AI-native testing is understanding the intent behind actions. GRACE focuses on understanding user goals rather than merely recording actions. This distinction is crucial: recording captures what happened, while intent-based testing captures why it happened.
 
 ### What happens when the UI changes?
 
-TestDriver adapts using AI. If a button or label changes, it can often infer the correct action without breaking.
+GRACE adapts using AI. If a button or label changes, it can often infer the correct action without breaking.
 
 ### Do I need to rewrite tests often?
 
-No. TestDriver reduces maintenance by handling common UI changes automatically.
+No. GRACE reduces maintenance by handling common UI changes automatically.
 
 ### How does it handle flaky tests?
 
-TestDriver Enterprise Dashboards provide insights into test stability, helping you identify flaky tests and their causes.
+GRACE Enterprise Dashboards provide insights into test stability, helping you identify flaky tests and their causes.
 
 ### How are tests updated over time?
 
-TestDriver will open pull requests in your repository with updated tests when it detects changes in the UI or application behavior. You can also regenerate tests using the original prompts manually.
+GRACE will open pull requests in your repository with updated tests when it detects changes in the UI or application behavior. You can also regenerate tests using the original prompts manually.
 
-### How does TestDriver report test failures?
+### How does GRACE report test failures?
 
 It provides detailed logs, screenshots, console output, and visual diffs.
 
@@ -1113,7 +1115,7 @@ Yes. You can configure retry behavior for individual steps or full tests.
 
 ### Can I run tests in parallel?
 
-Yes. TestDriver supports parallel execution using multiple VMs or containers.
+Yes. GRACE supports parallel execution using multiple VMs or containers.
 
 ### Can I track performance metrics during testing?
 
@@ -1129,7 +1131,7 @@ Yes. It supports data-driven tests using parameterized inputs.
 
 ### Can it test file uploads and downloads?
 
-Yes. TestDriver can interact with file pickers and validate uploaded/downloaded content.
+Yes. GRACE can interact with file pickers and validate uploaded/downloaded content.
 
 ### Can it generate tests for PDFs or document output?
 
@@ -1137,13 +1139,13 @@ Yes. It can open and verify generated files for expected text or formatting.
 
 ### Can I trigger tests based on pull requests or merges?
 
-Yes. You can integrate TestDriver with your CI to trigger runs via GitHub Actions or other CI/CD tools.
+Yes. You can integrate GRACE with your CI to trigger runs via GitHub Actions or other CI/CD tools.
 
 ### Does it integrate with CI/CD tools?
 
-Yes. TestDriver integrates with pipelines like GitHub Actions, GitLab CI, and CircleCI.
+Yes. GRACE integrates with pipelines like GitHub Actions, GitLab CI, and CircleCI.
 
-### Can I integrate TestDriver with Jira, Slack, etc.?
+### Can I integrate GRACE with Jira, Slack, etc.?
 
 Yes. You can receive alerts and sync test results with third-party tools via API/webhooks.
 
@@ -1155,7 +1157,7 @@ Yes. You can run tests locally or in the cloud using ephemeral VMs for clean sta
 
 It can complement or convert some existing test cases into its format, though full conversion depends on compatibility.
 
-### How does TestDriver measure test coverage?
+### How does GRACE measure test coverage?
 
 It tracks UI paths, element interaction frequency, and application state changes to infer coverage.
 
@@ -1169,7 +1171,7 @@ Yes. You can view trends in pass/fail rates and test execution consistency.
 
 ### Is it safe to test sensitive data?
 
-Yes. TestDriver supports variable obfuscation, secure containers, and test data management features to protect sensitive information.
+Yes. GRACE supports variable obfuscation, secure containers, and test data management features to protect sensitive information.
 
 ---
 
